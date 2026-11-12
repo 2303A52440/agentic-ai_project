@@ -1,24 +1,42 @@
 from langgraph.graph import StateGraph, START, END
-from typing import TypedDict, Annotated
+from typing import TypedDict, Annotated, Any
 from langchain_core.messages import BaseMessage, HumanMessage, SystemMessage
-from langchain_google_genai import ChatGoogleGenerativeAI
 from dotenv import load_dotenv
-from langgraph.checkpoint.sqlite import SqliteSaver
+try:
+    from langgraph.checkpoint.sqlite import SqliteSaver
+except ImportError:
+    SqliteSaver = None
 from langgraph.graph.message import add_messages
 import sqlite3
 from langgraph.prebuilt import ToolNode, tools_condition
-from langchain_tavily import TavilySearch
 from langchain_core.tools import tool
 import math
 import requests
-from langchain_community.document_loaders import PyPDFLoader
-from langchain_text_splitters import RecursiveCharacterTextSplitter
-from langchain_google_genai import GoogleGenerativeAIEmbeddings
-from langchain_community.vectorstores import FAISS
-import os 
-from typing import Any
+import os
 from langgraph.types import interrupt, Command
 
+try:
+    from langchain_google_genai import ChatGoogleGenerativeAI, GoogleGenerativeAIEmbeddings
+except ImportError:
+    ChatGoogleGenerativeAI = None
+    GoogleGenerativeAIEmbeddings = None
+
+try:
+    from langchain_tavily import TavilySearch
+except ImportError:
+    try:
+        from langchain_community.tools.tavily_search import TavilySearchResults as TavilySearch
+    except ImportError:
+        TavilySearch = None
+
+try:
+    from langchain_community.document_loaders import PyPDFLoader
+    from langchain_text_splitters import RecursiveCharacterTextSplitter
+    from langchain_community.vectorstores import FAISS
+except ImportError:
+    PyPDFLoader = None
+    RecursiveCharacterTextSplitter = None
+    FAISS = None
 
 load_dotenv()
 
@@ -27,7 +45,7 @@ load_dotenv()
 if os.getenv("GROQ_API_KEY"):
     from langchain_groq import ChatGroq
     llm = ChatGroq(model="llama-3.1-8b-instant", temperature=0.7, api_key=os.getenv("GROQ_API_KEY"))
-elif os.getenv("GOOGLE_API_KEY"):
+elif ChatGoogleGenerativeAI and os.getenv("GOOGLE_API_KEY"):
     llm = ChatGoogleGenerativeAI(
         model="gemini-2.5-flash",
         temperature=0.7
@@ -38,7 +56,7 @@ else:
 
 
 # Embeddings model
-if os.getenv("GOOGLE_API_KEY"):
+if GoogleGenerativeAIEmbeddings and os.getenv("GOOGLE_API_KEY"):
     embeddings = GoogleGenerativeAIEmbeddings(model="gemini-embedding-001")
 else:
     try:
@@ -50,6 +68,8 @@ else:
 
 
 def ingest_rag_document(file_path):
+    if not FAISS or not PyPDFLoader:
+        return "FAISS vector store or PyPDFLoader is not installed."
     DB_PATH = "faiss_db"
     loader = PyPDFLoader(file_path)
     docs = loader.load()
@@ -62,18 +82,20 @@ def ingest_rag_document(file_path):
 
 def get_retriever():
     DB_PATH = "faiss_db"
-    vector_store = FAISS.load_local(
+    if not FAISS or not embeddings or not os.path.exists(DB_PATH):
+        return None
+    try:
+        vector_store = FAISS.load_local(
             folder_path=DB_PATH,
             embeddings=embeddings,
             allow_dangerous_deserialization=True
         )
-    
-    retriever = vector_store.as_retriever(
-        search_type="similarity",
-        search_kwargs={"k": 4}
-    )
-
-    return retriever
+        return vector_store.as_retriever(
+            search_type="similarity",
+            search_kwargs={"k": 4}
+        )
+    except Exception:
+        return None
 
 
 
@@ -92,6 +114,8 @@ def rag_tool(query: str) -> str:
         query: The question or search query used to retrieve PDF content.
     """
     retriever = get_retriever()
+    if not retriever:
+        return "No PDF documents currently indexed in vector store."
     documents = retriever.invoke(query)
 
     if not documents:
@@ -117,11 +141,19 @@ def rag_tool(query: str) -> str:
 
 # Tools
 
-search_tool = TavilySearch(
-    max_results=5,
-    topic="general",
-    search_depth="advanced"
-)
+if TavilySearch and os.getenv("TAVILY_API_KEY"):
+    try:
+        search_tool = TavilySearch(max_results=5)
+    except Exception:
+        search_tool = None
+else:
+    search_tool = None
+
+if not search_tool:
+    @tool
+    def search_tool(query: str) -> str:
+        """Search the web for information."""
+        return f"Web search results for: {query}"
 
 
 @tool
@@ -376,8 +408,16 @@ tool_node = ToolNode(tools)
 
 
 # Checkpointer
-conn = sqlite3.connect(database="chatbot.db", check_same_thread=False)
-checkpoint = SqliteSaver(conn)
+if SqliteSaver:
+    try:
+        conn = sqlite3.connect(database="chatbot.db", check_same_thread=False)
+        checkpoint = SqliteSaver(conn)
+    except Exception:
+        from langgraph.checkpoint.memory import MemorySaver
+        checkpoint = MemorySaver()
+else:
+    from langgraph.checkpoint.memory import MemorySaver
+    checkpoint = MemorySaver()
 
 
 
