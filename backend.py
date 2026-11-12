@@ -24,14 +24,28 @@ load_dotenv()
 
 
 # LLM 
-llm = ChatGoogleGenerativeAI(
-    model="gemini-2.5-flash",
-    temperature=0.7
-)
+if os.getenv("GROQ_API_KEY"):
+    from langchain_groq import ChatGroq
+    llm = ChatGroq(model="llama-3.1-8b-instant", temperature=0.7, api_key=os.getenv("GROQ_API_KEY"))
+elif os.getenv("GOOGLE_API_KEY"):
+    llm = ChatGoogleGenerativeAI(
+        model="gemini-2.5-flash",
+        temperature=0.7
+    )
+else:
+    from langchain_groq import ChatGroq
+    llm = ChatGroq(model="llama-3.1-8b-instant", temperature=0.7, api_key="placeholder")
 
 
 # Embeddings model
-embeddings = GoogleGenerativeAIEmbeddings(model="gemini-embedding-001")
+if os.getenv("GOOGLE_API_KEY"):
+    embeddings = GoogleGenerativeAIEmbeddings(model="gemini-embedding-001")
+else:
+    try:
+        from langchain_community.embeddings import FakeEmbeddings
+        embeddings = FakeEmbeddings(size=768)
+    except Exception:
+        embeddings = None
 
 
 
