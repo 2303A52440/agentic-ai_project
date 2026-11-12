@@ -1,7 +1,7 @@
 import os
 import uvicorn
 from fastapi import FastAPI, Request
-from fastapi.responses import HTMLResponse, JSONResponse
+from fastapi.responses import HTMLResponse, JSONResponse, FileResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from pydantic import BaseModel
@@ -34,9 +34,9 @@ class ChatRequest(BaseModel):
     thread_id: str = "default_session"
 
 
-@app.get("/", response_class=HTMLResponse)
-async def serve_home(request: Request):
-    return templates.TemplateResponse("index.html", {"request": request})
+@app.get("/")
+async def serve_home():
+    return FileResponse(os.path.join(TEMPLATES_DIR, "index.html"))
 
 
 @app.get("/api/health")
