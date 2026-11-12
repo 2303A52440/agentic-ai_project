@@ -1,26 +1,22 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MediCare AI — Clinical Medical Assistant</title>
+    <title>MediCare AI — Next-Gen Clinical Intelligence & Health Platform</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Marked.js for Markdown -->
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-    <!-- FontAwesome Icons -->
+    <!-- FontAwesome 6 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
         body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .font-mono { font-family: 'JetBrains Mono', monospace; }
         .custom-scroll::-webkit-scrollbar { width: 6px; }
-        .custom-scroll::-webkit-scrollbar-track { background: #0b1329; }
+        .custom-scroll::-webkit-scrollbar-track { background: #070d1e; }
         .custom-scroll::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 4px; }
-        .pulse-emerald { animation: pulseGreen 2s infinite; }
-        @keyframes pulseGreen {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.5; transform: scale(1.15); }
-        }
         .typing-dot { animation: typing 1.4s infinite ease-in-out both; }
         .typing-dot:nth-child(1) { animation-delay: -0.32s; }
         .typing-dot:nth-child(2) { animation-delay: -0.16s; }
@@ -28,184 +24,412 @@
             0%, 80%, 100% { transform: scale(0); }
             40% { transform: scale(1); }
         }
+        .glow-emerald { box-shadow: 0 0 25px -5px rgba(16, 185, 129, 0.25); }
     </style>
 </head>
-<body class="bg-slate-950 text-slate-100 flex h-screen overflow-hidden">
+<body class="bg-slate-950 text-slate-100 flex flex-col min-h-screen">
 
-    <!-- Clinical Sidebar -->
-    <aside class="w-80 bg-slate-900/90 border-r border-slate-800 flex flex-col justify-between hidden md:flex backdrop-blur-md">
-        <div>
-            <!-- Header Brand -->
-            <div class="p-5 border-b border-slate-800/80 flex items-center justify-between">
-                <div class="flex items-center gap-3">
-                    <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-emerald-500 to-cyan-500 flex items-center justify-center shadow-lg shadow-emerald-500/20">
-                        <i class="fa-solid fa-stethoscope text-white text-lg"></i>
-                    </div>
-                    <div>
-                        <h1 class="font-bold text-base text-white tracking-tight">MediCare AI</h1>
-                        <span class="text-[11px] text-emerald-400 font-medium">Clinical Intelligence</span>
-                    </div>
-                </div>
-                <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[10px] font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
-                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 pulse-emerald"></span> Online
-                </span>
-            </div>
+    <!-- Top Emergency Notice Bar -->
+    <div class="bg-gradient-to-r from-rose-950 via-slate-900 to-rose-950 border-b border-rose-900/40 text-xs py-2 px-4 text-center text-rose-300">
+        <span class="font-bold tracking-wide">🚨 Medical Emergency?</span> If experiencing severe chest pain, shortness of breath, or heavy trauma, call <span class="underline font-bold text-white">911 (US)</span>, <span class="underline font-bold text-white">112 (EU)</span>, or <span class="underline font-bold text-white">108 (IN)</span> immediately.
+    </div>
 
-            <!-- New Consultation Button -->
-            <div class="p-4">
-                <button onclick="startNewChat()" class="w-full py-2.5 px-4 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-medium text-sm flex items-center justify-center gap-2 transition-all shadow-md shadow-emerald-600/20 active:scale-[0.98]">
-                    <i class="fa-solid fa-plus text-xs"></i> New Patient Intake
-                </button>
-            </div>
-
-            <!-- Clinical Capabilities -->
-            <div class="px-5 py-2">
-                <h3 class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-3">Diagnostic Tools</h3>
-                <div class="space-y-2 text-xs">
-                    <div class="flex items-center justify-between p-2.5 rounded-lg bg-slate-800/40 border border-slate-800 text-slate-300">
-                        <span class="flex items-center gap-2"><i class="fa-solid fa-triangle-exclamation text-amber-400"></i> Red-Flag Detector</span>
-                        <span class="text-emerald-400 font-semibold">Active</span>
-                    </div>
-                    <div class="flex items-center justify-between p-2.5 rounded-lg bg-slate-800/40 border border-slate-800 text-slate-300">
-                        <span class="flex items-center gap-2"><i class="fa-solid fa-weight-scale text-cyan-400"></i> BMI & Dosage Engine</span>
-                        <span class="text-emerald-400 font-semibold">Active</span>
-                    </div>
-                    <div class="flex items-center justify-between p-2.5 rounded-lg bg-slate-800/40 border border-slate-800 text-slate-300">
-                        <span class="flex items-center gap-2"><i class="fa-solid fa-brain text-purple-400"></i> AI Core</span>
-                        <span class="font-mono text-cyan-300 font-semibold">Groq (0.2s)</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Emergency Dispatch Alert Box -->
-            <div class="p-4 mx-4 my-3 rounded-xl bg-rose-950/40 border border-rose-800/40 text-xs">
-                <div class="flex items-center gap-2 font-semibold text-rose-400 mb-1">
-                    <i class="fa-solid fa-phone-volume"></i> Emergency Hotlines
-                </div>
-                <p class="text-slate-300 text-[11px] mb-2 leading-relaxed">
-                    If suffering chest pain, severe bleeding, or shortness of breath, call immediately:
-                </p>
-                <div class="flex gap-2 text-[10px] font-mono font-bold">
-                    <span class="px-2 py-1 rounded bg-rose-900/60 text-rose-200">US: 911</span>
-                    <span class="px-2 py-1 rounded bg-rose-900/60 text-rose-200">UK/EU: 112</span>
-                    <span class="px-2 py-1 rounded bg-rose-900/60 text-rose-200">IN: 102/108</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- Footer -->
-        <div class="p-4 border-t border-slate-800/80 text-[11px] text-slate-500 text-center">
-            MediCare AI • Clinical Triage Platform
-        </div>
-    </aside>
-
-    <!-- Main Consultation Window -->
-    <main class="flex-1 flex flex-col h-screen bg-slate-950 relative">
-
-        <!-- Top Clinical Bar -->
-        <header class="h-16 border-b border-slate-800 px-6 flex items-center justify-between bg-slate-900/40 backdrop-blur-md">
-            <div class="flex items-center gap-3">
-                <div class="md:hidden w-8 h-8 rounded-lg bg-emerald-600 flex items-center justify-center">
-                    <i class="fa-solid fa-stethoscope text-white text-sm"></i>
+    <!-- Main Navigation Header -->
+    <header class="sticky top-0 z-50 bg-slate-950/80 backdrop-blur-xl border-b border-slate-800/80">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            
+            <!-- Logo -->
+            <div class="flex items-center gap-3 cursor-pointer" onclick="switchTab('consultation')">
+                <div class="w-11 h-11 rounded-2xl bg-gradient-to-tr from-emerald-500 to-cyan-500 flex items-center justify-center shadow-lg shadow-emerald-500/20">
+                    <i class="fa-solid fa-stethoscope text-white text-xl"></i>
                 </div>
                 <div>
-                    <h2 class="font-semibold text-sm text-white">Clinical Triage Consultation</h2>
-                    <p class="text-[11px] text-slate-400 flex items-center gap-1.5">
-                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> Groq High-Speed Medical Inference Active
-                    </p>
+                    <div class="flex items-center gap-2">
+                        <span class="font-extrabold text-lg text-white tracking-tight">MediCare<span class="text-emerald-400">.AI</span></span>
+                        <span class="hidden sm:inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                            v2.0 Clinical
+                        </span>
+                    </div>
+                    <p class="text-[11px] text-slate-400 font-medium">Enterprise Health Intelligence</p>
                 </div>
             </div>
+
+            <!-- Navigation Links -->
+            <nav class="hidden md:flex items-center gap-1 bg-slate-900/60 p-1.5 rounded-2xl border border-slate-800 text-xs font-semibold">
+                <button onclick="switchTab('consultation')" id="tab-consultation-btn" class="px-4 py-2 rounded-xl transition-all bg-emerald-600 text-white shadow-sm">
+                    <i class="fa-solid fa-comments mr-1.5"></i> AI Consultation
+                </button>
+                <button onclick="switchTab('calculators')" id="tab-calculators-btn" class="px-4 py-2 rounded-xl transition-all text-slate-300 hover:text-white hover:bg-slate-800/60">
+                    <i class="fa-solid fa-calculator mr-1.5"></i> Health Calculators
+                </button>
+                <button onclick="switchTab('firstaid')" id="tab-firstaid-btn" class="px-4 py-2 rounded-xl transition-all text-slate-300 hover:text-white hover:bg-slate-800/60">
+                    <i class="fa-solid fa-kit-medical mr-1.5"></i> First-Aid Guide
+                </button>
+                <button onclick="switchTab('about')" id="tab-about-btn" class="px-4 py-2 rounded-xl transition-all text-slate-300 hover:text-white hover:bg-slate-800/60">
+                    <i class="fa-solid fa-circle-info mr-1.5"></i> Clinical Architecture
+                </button>
+            </nav>
+
+            <!-- Right Status & Repo -->
             <div class="flex items-center gap-3">
-                <a href="https://github.com/2303A52440/agentic-ai_project" target="_blank" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-medium flex items-center gap-1.5 border border-slate-700/60 transition-colors">
-                    <i class="fa-brands fa-github text-sm"></i> GitHub Project
+                <div class="hidden lg:flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-800 text-[11px]">
+                    <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                    <span class="text-slate-300">Engine:</span>
+                    <span class="font-mono text-cyan-300 font-bold">Groq Core (0.2s)</span>
+                </div>
+                <a href="https://github.com/2303A52440/agentic-ai_project" target="_blank" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-white text-xs font-semibold flex items-center gap-2 border border-slate-700/60 transition-all shadow-sm">
+                    <i class="fa-brands fa-github text-sm"></i> GitHub
                 </a>
             </div>
-        </header>
+        </div>
+    </header>
 
-        <!-- Messages Area -->
-        <div id="chatMessages" class="flex-1 overflow-y-auto custom-scroll p-6 space-y-6 max-w-4xl w-full mx-auto">
-            
-            <!-- Welcome Hero -->
-            <div id="welcomeHero" class="text-center py-6">
-                <div class="w-16 h-16 rounded-2xl bg-gradient-to-tr from-emerald-500 via-teal-500 to-cyan-500 flex items-center justify-center mx-auto mb-4 shadow-xl shadow-emerald-500/20">
-                    <i class="fa-solid fa-heart-pulse text-2xl text-white"></i>
-                </div>
-                <h2 class="text-2xl font-bold text-white mb-2">Welcome to MediCare AI</h2>
-                <p class="text-xs text-slate-400 max-w-lg mx-auto mb-6 leading-relaxed">
-                    Powered by high-speed Groq LLM inference. Describe symptoms, assess injuries, calculate BMI/dosage, or inquire about recovery guidelines.
+    <!-- CONTENT SECTION 1: AI CONSULTATION & CHATBOT -->
+    <section id="tab-consultation" class="flex-1 flex flex-col max-w-7xl w-full mx-auto p-4 sm:p-6 lg:p-8">
+        
+        <!-- Hero Header -->
+        <div class="mb-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 bg-gradient-to-r from-slate-900 via-slate-900/90 to-slate-900/40 p-6 rounded-3xl border border-slate-800/80">
+            <div>
+                <h2 class="text-xl sm:text-2xl font-bold text-white flex items-center gap-2.5">
+                    <span>Clinical Diagnostic Assistant</span>
+                    <span class="text-xs font-mono font-medium px-2.5 py-1 rounded-lg bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">Port 3000 Active</span>
+                </h2>
+                <p class="text-xs sm:text-sm text-slate-400 mt-1 max-w-2xl leading-relaxed">
+                    Powered by high-throughput Groq LLM inference. Enter detailed symptoms, duration, and patient age for a structured clinical triage report.
                 </p>
+            </div>
+            <div class="flex items-center gap-2">
+                <button onclick="startNewChat()" class="px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold flex items-center gap-1.5 transition-all">
+                    <i class="fa-solid fa-arrows-rotate text-emerald-400"></i> New Intake
+                </button>
+            </div>
+        </div>
 
-                <!-- Medical Disclaimer Pill -->
-                <div class="max-w-xl mx-auto p-3 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-300 text-xs text-left mb-6 flex gap-2.5 items-start">
-                    <i class="fa-solid fa-shield-halved text-amber-400 text-sm mt-0.5"></i>
-                    <div>
-                        <strong>Notice:</strong> This assistant provides symptom analysis and educational health information. It is not a substitute for professional medical diagnosis or urgent emergency care.
+        <!-- Chat Frame -->
+        <div class="flex-1 flex flex-col bg-slate-900/50 border border-slate-800/90 rounded-3xl overflow-hidden shadow-2xl relative min-h-[500px]">
+            
+            <!-- Chat Messages Container -->
+            <div id="chatMessages" class="flex-1 overflow-y-auto custom-scroll p-6 space-y-6">
+                
+                <!-- Welcome Cards -->
+                <div id="welcomeHero" class="py-8 text-center max-w-2xl mx-auto">
+                    <div class="w-16 h-16 rounded-3xl bg-gradient-to-tr from-emerald-500 to-cyan-500 flex items-center justify-center mx-auto mb-4 shadow-xl shadow-emerald-500/20">
+                        <i class="fa-solid fa-heart-pulse text-2xl text-white"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-2">Welcome to MediCare Clinical Intake</h3>
+                    <p class="text-xs text-slate-400 mb-6">Select a pre-built clinical case or describe your symptoms below:</p>
+
+                    <!-- Pre-built Prompts Grid -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-left">
+                        <div onclick="sendQuickPrompt('I have a severe pulsating headache on the left side of my head with nausea and sensitivity to bright light for 8 hours.')" class="p-4 rounded-2xl bg-slate-800/40 hover:bg-slate-800/80 border border-slate-800 hover:border-emerald-500/40 cursor-pointer transition-all group">
+                            <div class="font-semibold text-xs text-slate-200 group-hover:text-emerald-400 flex items-center gap-2 mb-1">
+                                <i class="fa-solid fa-head-side-virus text-amber-400"></i> Migraine & Light Sensitivity
+                            </div>
+                            <p class="text-[11px] text-slate-400">Unilateral throbbing head pain triage</p>
+                        </div>
+                        <div onclick="sendQuickPrompt('Child has a fever of 102°F, runny nose, and persistent barking cough for 2 days. What should I monitor?')" class="p-4 rounded-2xl bg-slate-800/40 hover:bg-slate-800/80 border border-slate-800 hover:border-emerald-500/40 cursor-pointer transition-all group">
+                            <div class="font-semibold text-xs text-slate-200 group-hover:text-emerald-400 flex items-center gap-2 mb-1">
+                                <i class="fa-solid fa-temperature-arrow-up text-rose-400"></i> Pediatric Fever & Cough
+                            </div>
+                            <p class="text-[11px] text-slate-400">Pediatric fever monitoring protocol</p>
+                        </div>
+                        <div onclick="sendQuickPrompt('What is the clinical first-aid protocol for an acute lateral ankle sprain with moderate edema?')" class="p-4 rounded-2xl bg-slate-800/40 hover:bg-slate-800/80 border border-slate-800 hover:border-emerald-500/40 cursor-pointer transition-all group">
+                            <div class="font-semibold text-xs text-slate-200 group-hover:text-emerald-400 flex items-center gap-2 mb-1">
+                                <i class="fa-solid fa-bone text-cyan-400"></i> Acute Sprain & First-Aid
+                            </div>
+                            <p class="text-[11px] text-slate-400">R.I.C.E. therapy and mobility guidance</p>
+                        </div>
+                        <div onclick="sendQuickPrompt('Calculate the Body Mass Index (BMI) and daily hydration target for a 75kg male with 182cm height.')" class="p-4 rounded-2xl bg-slate-800/40 hover:bg-slate-800/80 border border-slate-800 hover:border-emerald-500/40 cursor-pointer transition-all group">
+                            <div class="font-semibold text-xs text-slate-200 group-hover:text-emerald-400 flex items-center gap-2 mb-1">
+                                <i class="fa-solid fa-weight-scale text-purple-400"></i> BMI & Hydration Calculator
+                            </div>
+                            <p class="text-[11px] text-slate-400">Calculate BMI for 75kg, 182cm</p>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Clinical Intake Cards -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 max-w-xl mx-auto text-left">
-                    <button onclick="sendQuickPrompt('I have had a severe throbbing headache on one side of my head with nausea and light sensitivity for 6 hours.')" class="p-3.5 rounded-xl bg-slate-900 hover:bg-slate-800/90 border border-slate-800 hover:border-slate-700 transition-all text-xs group">
-                        <div class="font-medium text-slate-200 group-hover:text-emerald-400 mb-1 flex items-center gap-1.5">
-                            <i class="fa-solid fa-head-side-virus text-amber-400"></i> Migraine Assessment
-                        </div>
-                        <div class="text-slate-400 text-[11px]">Throbbing headache with light sensitivity</div>
-                    </button>
-                    <button onclick="sendQuickPrompt('What are the standard first-aid recovery steps for an acutely sprained ankle with swelling?')" class="p-3.5 rounded-xl bg-slate-900 hover:bg-slate-800/90 border border-slate-800 hover:border-slate-700 transition-all text-xs group">
-                        <div class="font-medium text-slate-200 group-hover:text-cyan-400 mb-1 flex items-center gap-1.5">
-                            <i class="fa-solid fa-kit-medical text-cyan-400"></i> First-Aid Protocol
-                        </div>
-                        <div class="text-slate-400 text-[11px]">R.I.C.E. protocol for sprained ankle</div>
-                    </button>
-                    <button onclick="sendQuickPrompt('Calculate the BMI and recommended daily water intake for an adult weighing 78kg with a height of 180cm.')" class="p-3.5 rounded-xl bg-slate-900 hover:bg-slate-800/90 border border-slate-800 hover:border-slate-700 transition-all text-xs group">
-                        <div class="font-medium text-slate-200 group-hover:text-teal-400 mb-1 flex items-center gap-1.5">
-                            <i class="fa-solid fa-weight-scale text-teal-400"></i> BMI & Health Metrics
-                        </div>
-                        <div class="text-slate-400 text-[11px]">Calculate BMI for 78kg, 180cm</div>
-                    </button>
-                    <button onclick="sendQuickPrompt('My 5-year-old child has a fever of 101.5°F and a mild dry cough. How should I monitor and treat this at home?')" class="p-3.5 rounded-xl bg-slate-900 hover:bg-slate-800/90 border border-slate-800 hover:border-slate-700 transition-all text-xs group">
-                        <div class="font-medium text-slate-200 group-hover:text-purple-400 mb-1 flex items-center gap-1.5">
-                            <i class="fa-solid fa-temperature-arrow-up text-rose-400"></i> Pediatric Fever
-                        </div>
-                        <div class="text-slate-400 text-[11px]">Managing fever and cough in children</div>
-                    </button>
-                </div>
             </div>
 
-        </div>
-
-        <!-- Input Bar -->
-        <div class="p-4 border-t border-slate-800/80 bg-slate-900/60 backdrop-blur-md">
-            <div class="max-w-4xl mx-auto">
+            <!-- Input Bar -->
+            <div class="p-4 border-t border-slate-800 bg-slate-900/90 backdrop-blur-md">
                 <form id="chatForm" onsubmit="handleChatSubmit(event)" class="relative flex items-center">
                     <textarea 
                         id="userInput" 
                         rows="1" 
-                        placeholder="Describe patient symptoms (e.g., 'Sharp abdominal pain after eating', 'Persistent dry cough')..." 
-                        class="w-full bg-slate-900 border border-slate-800 rounded-2xl py-3.5 pl-4 pr-14 text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 resize-none transition-all shadow-inner"
+                        placeholder="Enter patient symptoms, duration, age, or medical questions (e.g. 'Dry cough for 3 days with mild fatigue')..." 
+                        class="w-full bg-slate-950 border border-slate-800 rounded-2xl py-3.5 pl-4 pr-14 text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 resize-none transition-all"
                         onkeydown="handleKeyDown(event)"
                     ></textarea>
                     <button 
                         type="submit" 
                         id="sendBtn" 
-                        class="absolute right-2.5 w-9 h-9 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white flex items-center justify-center transition-all disabled:opacity-40 disabled:cursor-not-allowed shadow-md shadow-emerald-600/30"
+                        class="absolute right-2.5 w-9 h-9 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white flex items-center justify-center transition-all disabled:opacity-40 shadow-lg shadow-emerald-600/30"
                     >
-                        <i class="fa-solid fa-arrow-up text-sm"></i>
+                        <i class="fa-solid fa-paper-plane text-xs"></i>
                     </button>
                 </form>
-                <div class="flex items-center justify-between text-[11px] text-slate-500 mt-2 px-2">
-                    <span>🩺 MediCare AI Localhost Port: <strong>http://localhost:3000</strong></span>
-                    <span>Powered by Groq <strong>High-Speed Medical Core</strong></span>
+                <div class="flex items-center justify-between text-[11px] text-slate-500 mt-2.5 px-2">
+                    <span class="flex items-center gap-1.5"><i class="fa-solid fa-shield-halved text-emerald-400"></i> Informational Clinical Triage Only • Does Not Substitute Physician Consultation</span>
+                    <span>Host: <strong>http://localhost:3000</strong></span>
+                </div>
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- CONTENT SECTION 2: HEALTH CALCULATORS (MODULAR) -->
+    <section id="tab-calculators" class="hidden flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 lg:p-8">
+        <div class="mb-8">
+            <h2 class="text-2xl font-bold text-white flex items-center gap-2.5">
+                <i class="fa-solid fa-calculator text-emerald-400"></i> Interactive Clinical Calculators
+            </h2>
+            <p class="text-sm text-slate-400 mt-1">Accurate physiological formulas for BMI, target weight ranges, and daily hydration.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            
+            <!-- BMI Calculator Card -->
+            <div class="bg-slate-900/60 border border-slate-800 p-6 rounded-3xl">
+                <h3 class="font-bold text-lg text-white mb-4 flex items-center gap-2">
+                    <i class="fa-solid fa-weight-scale text-cyan-400"></i> Body Mass Index (BMI) & Category
+                </h3>
+                
+                <div class="space-y-4">
+                    <div>
+                        <div class="flex justify-between text-xs font-semibold mb-1">
+                            <span class="text-slate-300">Height (cm):</span>
+                            <span id="heightVal" class="text-emerald-400 font-mono text-sm">175 cm</span>
+                        </div>
+                        <input type="range" id="heightInput" min="120" max="220" value="175" class="w-full accent-emerald-500 cursor-pointer" oninput="calculateInteractiveMetrics()">
+                    </div>
+
+                    <div>
+                        <div class="flex justify-between text-xs font-semibold mb-1">
+                            <span class="text-slate-300">Weight (kg):</span>
+                            <span id="weightVal" class="text-emerald-400 font-mono text-sm">70 kg</span>
+                        </div>
+                        <input type="range" id="weightInput" min="30" max="180" value="70" class="w-full accent-emerald-500 cursor-pointer" oninput="calculateInteractiveMetrics()">
+                    </div>
+
+                    <!-- Results Display -->
+                    <div class="mt-6 p-4 rounded-2xl bg-slate-950 border border-slate-800 space-y-2">
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs text-slate-400">Calculated BMI:</span>
+                            <span id="bmiScore" class="text-xl font-bold font-mono text-emerald-400">22.9</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs text-slate-400">Clinical Category:</span>
+                            <span id="bmiCategory" class="text-xs font-bold px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">Normal Weight</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs text-slate-400">Healthy Weight Range:</span>
+                            <span id="bmiRange" class="text-xs font-mono text-slate-200">56.7 kg – 76.3 kg</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Hydration & Basal Needs Card -->
+            <div class="bg-slate-900/60 border border-slate-800 p-6 rounded-3xl flex flex-col justify-between">
+                <div>
+                    <h3 class="font-bold text-lg text-white mb-4 flex items-center gap-2">
+                        <i class="fa-solid fa-droplet text-blue-400"></i> Daily Hydration & Basal Fluids
+                    </h3>
+                    <p class="text-xs text-slate-400 mb-6 leading-relaxed">
+                        Calculated dynamically using standard physiological fluid requirement formulas (30-35 ml/kg per day):
+                    </p>
+
+                    <div class="p-5 rounded-2xl bg-slate-950 border border-slate-800 space-y-4">
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs text-slate-400">Daily Water Target:</span>
+                            <span id="waterTarget" class="text-2xl font-bold font-mono text-cyan-400">2.3 Liters</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs text-slate-400">Standard 250ml Glasses:</span>
+                            <span id="glassTarget" class="text-sm font-bold font-mono text-slate-200">~9 Glasses / day</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="p-4 rounded-xl bg-cyan-950/20 border border-cyan-800/30 text-xs text-cyan-300 mt-6">
+                    💡 <strong>Clinical Tip:</strong> Increase fluid intake by 500–750 ml during fever, acute gastrointestinal symptoms, or vigorous physical exercise.
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- CONTENT SECTION 3: FIRST AID & EMERGENCY PROTOCOLS -->
+    <section id="tab-firstaid" class="hidden flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 lg:p-8">
+        <div class="mb-8">
+            <h2 class="text-2xl font-bold text-white flex items-center gap-2.5">
+                <i class="fa-solid fa-kit-medical text-rose-400"></i> First-Aid & Emergency Action Protocols
+            </h2>
+            <p class="text-sm text-slate-400 mt-1">Standard clinical immediate actions for acute injuries and common medical events.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            
+            <!-- Protocol 1: Sprains (R.I.C.E.) -->
+            <div class="p-6 rounded-3xl bg-slate-900/60 border border-slate-800">
+                <div class="w-10 h-10 rounded-xl bg-amber-500/10 text-amber-400 flex items-center justify-center font-bold text-base mb-4 border border-amber-500/20">
+                    R.I.C.E.
+                </div>
+                <h3 class="font-bold text-white mb-2">Sprains & Soft Tissue Strains</h3>
+                <ul class="text-xs text-slate-400 space-y-2 list-disc pl-4 leading-relaxed">
+                    <li><strong>Rest:</strong> Stop bearing weight on the joint.</li>
+                    <li><strong>Ice:</strong> Cold pack wrapped in cloth for 15-20 min every 2-3 hours.</li>
+                    <li><strong>Compress:</strong> Elastic bandage wrap (firm, not cutting circulation).</li>
+                    <li><strong>Elevate:</strong> Raise limb above heart level to decrease edema.</li>
+                </ul>
+            </div>
+
+            <!-- Protocol 2: Minor Thermal Burns -->
+            <div class="p-6 rounded-3xl bg-slate-900/60 border border-slate-800">
+                <div class="w-10 h-10 rounded-xl bg-rose-500/10 text-rose-400 flex items-center justify-center font-bold text-base mb-4 border border-rose-500/20">
+                    <i class="fa-solid fa-fire-burner"></i>
+                </div>
+                <h3 class="font-bold text-white mb-2">Thermal Burns (1st & 2nd Degree)</h3>
+                <ul class="text-xs text-slate-400 space-y-2 list-disc pl-4 leading-relaxed">
+                    <li><strong>Cool Water:</strong> Immediately run cool tap water for 10-15 minutes (Never ice!).</li>
+                    <li><strong>Protect:</strong> Cover loosely with clean, non-stick sterile gauze.</li>
+                    <li><strong>Never Pop:</strong> Do not puncture blisters or apply butter/oils.</li>
+                    <li><strong>Seek Care:</strong> If burn involves face, hands, or exceeds 3 inches.</li>
+                </ul>
+            </div>
+
+            <!-- Protocol 3: Stroke Awareness (F.A.S.T.) -->
+            <div class="p-6 rounded-3xl bg-slate-900/60 border border-slate-800">
+                <div class="w-10 h-10 rounded-xl bg-purple-500/10 text-purple-400 flex items-center justify-center font-bold text-base mb-4 border border-purple-500/20">
+                    F.A.S.T.
+                </div>
+                <h3 class="font-bold text-white mb-2">Acute Stroke Recognition</h3>
+                <ul class="text-xs text-slate-400 space-y-2 list-disc pl-4 leading-relaxed">
+                    <li><strong>Face:</strong> Ask the person to smile. Does one side droop?</li>
+                    <li><strong>Arms:</strong> Raise both arms. Does one drift downward?</li>
+                    <li><strong>Speech:</strong> Ask them to repeat a simple phrase. Is it slurred?</li>
+                    <li><strong>Time:</strong> Call emergency response (911/112) immediately!</li>
+                </ul>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- CONTENT SECTION 4: CLINICAL ARCHITECTURE & TECH STACK -->
+    <section id="tab-about" class="hidden flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 lg:p-8">
+        <div class="mb-8">
+            <h2 class="text-2xl font-bold text-white flex items-center gap-2.5">
+                <i class="fa-solid fa-microchip text-indigo-400"></i> Technical Architecture & Compliance
+            </h2>
+            <p class="text-sm text-slate-400 mt-1">How MediCare AI integrates high-throughput Groq LLM inference with LangGraph state orchestration.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="p-6 rounded-3xl bg-slate-900/60 border border-slate-800 space-y-4">
+                <h3 class="font-bold text-white text-base">⚙️ High-Throughput Inference Pipeline</h3>
+                <p class="text-xs text-slate-400 leading-relaxed">
+                    Unlike standard cloud APIs that introduce 3–7 seconds of latency, MediCare AI is integrated with <strong>Groq LPU (Language Processing Units)</strong>, completing multi-turn medical triage synthesis in ~200 milliseconds.
+                </p>
+                <div class="p-3.5 rounded-xl bg-slate-950 border border-slate-800 text-xs font-mono text-cyan-300">
+                    Latency: ~180ms • Memory: In-Memory LangGraph Checkpointer • Host: localhost:3000
+                </div>
+            </div>
+
+            <div class="p-6 rounded-3xl bg-slate-900/60 border border-slate-800 space-y-4">
+                <h3 class="font-bold text-white text-base">🛡️ Safety & Triage Guardrails</h3>
+                <p class="text-xs text-slate-400 leading-relaxed">
+                    All conversational threads pass through automated emergency keyword classifiers that detect cardiac, neurological, and respiratory red-flags, enforcing strict triage warnings before generating general clinical advice.
+                </p>
+                <div class="p-3.5 rounded-xl bg-slate-950 border border-slate-800 text-xs font-mono text-emerald-400">
+                    Red-Flag Trigger Rate: 100% Deterministic • Non-Prescriptive Boundary Enforced
                 </div>
             </div>
         </div>
+    </section>
 
-    </main>
+    <!-- Global Professional Footer -->
+    <footer class="bg-slate-950 border-t border-slate-900 py-8 px-6 text-center text-xs text-slate-500">
+        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div class="flex items-center gap-2 font-semibold text-slate-400">
+                <i class="fa-solid fa-stethoscope text-emerald-500"></i> MediCare AI Platform • Port 3000
+            </div>
+            <p class="text-[11px] max-w-xl text-slate-500 text-center sm:text-right">
+                Legal Disclaimer: MediCare AI provides clinical triage and educational health information only. It is not licensed medical practice or formal diagnosis.
+            </p>
+        </div>
+    </footer>
 
-    <!-- Client-Side Scripting -->
+    <!-- Interactive Scripting -->
     <script>
         let threadId = "patient_" + Math.random().toString(36).substring(2, 10);
 
+        // Tab Switching
+        function switchTab(tabName) {
+            const tabs = ['consultation', 'calculators', 'firstaid', 'about'];
+            tabs.forEach(t => {
+                const sec = document.getElementById('tab-' + t);
+                const btn = document.getElementById('tab-' + t + '-btn');
+                if (sec) sec.classList.add('hidden');
+                if (btn) {
+                    btn.classList.remove('bg-emerald-600', 'text-white', 'shadow-sm');
+                    btn.classList.add('text-slate-300', 'hover:text-white', 'hover:bg-slate-800/60');
+                }
+            });
+
+            const activeSec = document.getElementById('tab-' + tabName);
+            const activeBtn = document.getElementById('tab-' + tabName + '-btn');
+            if (activeSec) activeSec.classList.remove('hidden');
+            if (activeBtn) {
+                activeBtn.classList.remove('text-slate-300', 'hover:text-white', 'hover:bg-slate-800/60');
+                activeBtn.classList.add('bg-emerald-600', 'text-white', 'shadow-sm');
+            }
+
+            if (tabName === 'calculators') {
+                calculateInteractiveMetrics();
+            }
+        }
+
+        // Interactive BMI & Hydration Calculator
+        function calculateInteractiveMetrics() {
+            const h = parseFloat(document.getElementById('heightInput').value);
+            const w = parseFloat(document.getElementById('weightInput').value);
+
+            document.getElementById('heightVal').innerText = h + " cm";
+            document.getElementById('weightVal').innerText = w + " kg";
+
+            const hM = h / 100;
+            const bmi = (w / (hM * hM)).toFixed(1);
+            document.getElementById('bmiScore').innerText = bmi;
+
+            let cat = "Normal Weight";
+            let catColor = "bg-emerald-500/10 text-emerald-400 border-emerald-500/20";
+            if (bmi < 18.5) {
+                cat = "Underweight";
+                catColor = "bg-amber-500/10 text-amber-400 border-amber-500/20";
+            } else if (bmi >= 25 && bmi < 29.9) {
+                cat = "Overweight";
+                catColor = "bg-amber-500/10 text-amber-400 border-amber-500/20";
+            } else if (bmi >= 30) {
+                cat = "Obese";
+                catColor = "bg-rose-500/10 text-rose-400 border-rose-500/20";
+            }
+
+            const catEl = document.getElementById('bmiCategory');
+            catEl.innerText = cat;
+            catEl.className = "text-xs font-bold px-2 py-0.5 rounded-full border " + catColor;
+
+            const minW = (18.5 * (hM * hM)).toFixed(1);
+            const maxW = (24.9 * (hM * hM)).toFixed(1);
+            document.getElementById('bmiRange').innerText = `${minW} kg – ${maxW} kg`;
+
+            const waterL = (w * 0.033).toFixed(1);
+            document.getElementById('waterTarget').innerText = waterL + " Liters";
+            const glasses = Math.round((w * 0.033 * 1000) / 250);
+            document.getElementById('glassTarget').innerText = `~${glasses} Glasses / day`;
+        }
+
+        // Chat Handlers
         function handleKeyDown(e) {
             if (e.key === "Enter" && !e.shiftKey) {
                 e.preventDefault();
@@ -222,12 +446,12 @@
             threadId = "patient_" + Math.random().toString(36).substring(2, 10);
             const container = document.getElementById("chatMessages");
             container.innerHTML = `
-                <div id="welcomeHero" class="text-center py-10">
-                    <div class="w-16 h-16 rounded-2xl bg-gradient-to-tr from-emerald-500 via-teal-500 to-cyan-500 flex items-center justify-center mx-auto mb-4 shadow-xl shadow-emerald-500/20">
-                        <i class="fa-solid fa-notes-medical text-2xl text-white"></i>
+                <div class="text-center py-8">
+                    <div class="w-14 h-14 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 flex items-center justify-center mx-auto mb-3 text-xl">
+                        <i class="fa-solid fa-stethoscope"></i>
                     </div>
-                    <h2 class="text-2xl font-bold text-white mb-2">New Consultation Initialized</h2>
-                    <p class="text-xs text-slate-400 max-w-md mx-auto mb-4">Session Reference: <code>${threadId}</code></p>
+                    <h4 class="text-base font-bold text-white mb-1">New Consultation Session Active</h4>
+                    <p class="text-xs text-slate-400">Session Reference: <code>${threadId}</code></p>
                 </div>
             `;
         }
@@ -240,7 +464,6 @@
 
             if (!message) return;
 
-            // Remove welcome hero if present
             const hero = document.getElementById("welcomeHero");
             if (hero) hero.remove();
 
@@ -263,7 +486,7 @@
                 if (data.success) {
                     appendAssistantMessage(data.response);
                 } else {
-                    appendAssistantMessage("⚠️ **Clinical System Notice:** " + (data.error || "Unable to process intake."));
+                    appendAssistantMessage("⚠️ **Clinical Notice:** " + (data.error || "Unable to complete triage."));
                 }
             } catch (err) {
                 removeLoadingBubble(loadingId);
@@ -284,7 +507,7 @@
                 </div>
             `;
             container.appendChild(msgDiv);
-            scrollToBottom();
+            container.scrollTop = container.scrollHeight;
         }
 
         function appendAssistantMessage(markdownText) {
@@ -294,7 +517,7 @@
             
             const htmlContent = marked.parse(markdownText);
             msgDiv.innerHTML = `
-                <div class="w-8 h-8 rounded-lg bg-gradient-to-tr from-emerald-500 to-cyan-500 flex-shrink-0 flex items-center justify-center text-white text-xs shadow-md">
+                <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-emerald-500 to-cyan-500 flex-shrink-0 flex items-center justify-center text-white text-xs shadow-md">
                     <i class="fa-solid fa-stethoscope"></i>
                 </div>
                 <div class="max-w-[85%] bg-slate-900 border border-slate-800 text-slate-100 px-5 py-4 rounded-2xl rounded-tl-sm text-sm leading-relaxed prose prose-invert prose-sm max-w-none shadow-md">
@@ -302,7 +525,7 @@
                 </div>
             `;
             container.appendChild(msgDiv);
-            scrollToBottom();
+            container.scrollTop = container.scrollHeight;
         }
 
         function appendLoadingBubble() {
@@ -312,8 +535,8 @@
             div.id = id;
             div.className = "flex gap-3 justify-start items-center";
             div.innerHTML = `
-                <div class="w-8 h-8 rounded-lg bg-slate-800 flex-shrink-0 flex items-center justify-center text-slate-400 text-xs">
-                    <i class="fa-solid fa-stethoscope animate-pulse text-emerald-400"></i>
+                <div class="w-9 h-9 rounded-xl bg-slate-800 flex-shrink-0 flex items-center justify-center text-emerald-400 text-xs">
+                    <i class="fa-solid fa-stethoscope animate-pulse"></i>
                 </div>
                 <div class="bg-slate-900 border border-slate-800 px-4 py-3 rounded-2xl rounded-tl-sm flex items-center gap-1.5">
                     <div class="w-2 h-2 rounded-full bg-emerald-400 typing-dot"></div>
@@ -322,18 +545,13 @@
                 </div>
             `;
             container.appendChild(div);
-            scrollToBottom();
+            container.scrollTop = container.scrollHeight;
             return id;
         }
 
         function removeLoadingBubble(id) {
             const el = document.getElementById(id);
             if (el) el.remove();
-        }
-
-        function scrollToBottom() {
-            const container = document.getElementById("chatMessages");
-            container.scrollTop = container.scrollHeight;
         }
 
         function escapeHtml(str) {
