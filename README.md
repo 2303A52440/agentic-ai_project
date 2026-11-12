@@ -1,98 +1,55 @@
-# 🤖 Agentic AI Chatbot
+# 🩺 MediCare AI — Clinical Medical Agentic Chatbot
 
 > 🚀 **Application URL:** [http://localhost:3000](http://localhost:3000)  
-> 🌐 **Local Host:** `http://localhost:3000` (Port: `3000`)
+> 🌐 **Local Host:** `http://localhost:3000` (Port: `3000`)  
+> ⚡ **Inference Engine:** Groq High-Speed Medical AI Core  
 
 ---
 
-# Agentic-Chatbot-APP-CICD-Deployment-with-Github-Actions-on-AWS
+## 📌 Overview
+**MediCare AI** is a professional, clinical-grade medical intelligence assistant built with **FastAPI**, **LangGraph**, and **Groq**. It provides autonomous symptom triage, red-flag emergency detection, BMI & hydration calculations, and evidence-based self-care guidance.
 
-### Description: About the deployment
+---
 
-	1. Build docker image of the source code
+## ✨ Features
+* 🩺 **Clinical Symptom Triage:** Structured assessments with possible etiologies and recovery guidelines.
+* 🚨 **Red-Flag Emergency Detector:** Alerts users when symptoms indicate acute medical emergencies (chest pain, stroke signs, breathing distress).
+* ⚖️ **BMI & Dosage Calculator:** Accurately computes Body Mass Index, target weight ranges, and daily hydration goals.
+* ⚡ **Sub-Second Groq Inference:** Powered by Groq for instantaneous answers.
+* 💻 **Modern Professional Web UI:** Responsive dark-mode interface with clinical intake prompt cards.
 
-	2. Push your docker image to docker hub
+---
 
-	3. Launch Your EC2 
+## 🚀 Quick Start (Localhost:3000)
 
-	4. Pull Your image from docker hub in EC2
+### 1. Clone & Setup
+```bash
+git clone https://github.com/2303A52440/agentic-ai_project.git
+cd agentic-ai_project
+```
 
-	5. Lauch your docker image in EC2
+### 2. Configure Environment (`.env`)
+```env
+GROQ_API_KEY=your_groq_api_key_here
+PORT=3000
+```
 
-## 1. Login to AWS console.
+### 3. Install & Run
+```bash
+pip install -r requirements.txt
+python app.py
+```
+Open **`http://localhost:3000`** in your browser.
 
-## 2. Create IAM user for deployment
+---
 
-	#Policy:
+## 🐳 Docker Deployment
+```bash
+docker build -t medicare-ai .
+docker run -d -p 3000:3000 --env-file .env medicare-ai
+```
 
-	1. AmazonEC2FullAccess
+---
 
-	
-
-## 3. Create EC2 machine (Ubuntu) 
-
-## 4. Open EC2 and Install docker in EC2 Machine:
-	
-	
-	#optinal
-
-	sudo apt-get update -y
-
-	sudo apt-get upgrade
-	
-	#Install Docker
-
-	curl -fsSL https://get.docker.com -o get-docker.sh
-
-	sudo sh get-docker.sh
-
-	sudo usermod -aG docker ubuntu
-
-	newgrp docker
-
-
-### Note: Do the port mapping to port 3000:
-	- Localhost URL: http://localhost:3000
-	- Docker Port Mapping: -p 3000:3000
-	
-# 5. Configure EC2 as self-hosted runner:
-
-    setting>actions>runner>new self hosted runner> choose os> then run command one by one
-
-
-
-
-
-
-# 6. How to add secret keys to GitHub Actions:
-
-
-REGISTRY=docker.io
-
-DOCKER_USERNAME=your-dockerhub-username
-
-DOCKER_PASSWORD=your-dockerhub-access-token
-
-IMAGE_NAME=agentic-chatbot
-
-AWS_ACCESS_KEY_ID=your-aws-access-key
-
-AWS_SECRET_ACCESS_KEY=your-aws-secret-key
-
-AWS_REGION=us-east-1
-
-OPENAI_API_KEY=your-openai-api-key
-
-TAVILY_API_KEY=your-tavily-api-key
-
-OPENWEATHER_API_KEY=your-openweather-api-key
-
-GOOGLE_API_KEY=your-google-api-key
-
-LANGSMITH_TRACING=true
-
-LANGSMITH_ENDPOINT=https://api.smith.langchain.com
-
-LANGSMITH_API_KEY=your-langsmith-api-key
-
-LANGSMITH_PROJECT=agentic-chatbot-project
+## ⚠️ Medical Disclaimer
+*MediCare AI is designed for informational and educational triage purposes only. It does not provide formal medical diagnosis, physical examinations, or prescriptions. In a medical emergency, call 911 (US/CA), 112 (EU), or your local emergency dispatch immediately.*

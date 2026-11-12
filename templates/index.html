@@ -3,20 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nexus AI — Professional Agentic Assistant</title>
+    <title>MediCare AI — Clinical Medical Assistant</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Marked.js for clean Markdown rendering -->
+    <!-- Marked.js for Markdown -->
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
         body { font-family: 'Plus Jakarta Sans', sans-serif; }
-        pre, code { font-family: 'JetBrains Mono', monospace; }
         .custom-scroll::-webkit-scrollbar { width: 6px; }
-        .custom-scroll::-webkit-scrollbar-track { background: #0f172a; }
-        .custom-scroll::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+        .custom-scroll::-webkit-scrollbar-track { background: #0b1329; }
+        .custom-scroll::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 4px; }
+        .pulse-emerald { animation: pulseGreen 2s infinite; }
+        @keyframes pulseGreen {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.15); }
+        }
         .typing-dot { animation: typing 1.4s infinite ease-in-out both; }
         .typing-dot:nth-child(1) { animation-delay: -0.32s; }
         .typing-dot:nth-child(2) { animation-delay: -0.16s; }
@@ -28,87 +32,92 @@
 </head>
 <body class="bg-slate-950 text-slate-100 flex h-screen overflow-hidden">
 
-    <!-- Sidebar -->
-    <aside class="w-72 bg-slate-900/90 border-r border-slate-800 flex flex-col justify-between hidden md:flex backdrop-blur-md">
+    <!-- Clinical Sidebar -->
+    <aside class="w-80 bg-slate-900/90 border-r border-slate-800 flex flex-col justify-between hidden md:flex backdrop-blur-md">
         <div>
             <!-- Header Brand -->
             <div class="p-5 border-b border-slate-800/80 flex items-center justify-between">
                 <div class="flex items-center gap-3">
-                    <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-indigo-500 to-cyan-400 flex items-center justify-center shadow-lg shadow-indigo-500/30">
-                        <i class="fa-solid fa-bolt text-white text-base"></i>
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-emerald-500 to-cyan-500 flex items-center justify-center shadow-lg shadow-emerald-500/20">
+                        <i class="fa-solid fa-stethoscope text-white text-lg"></i>
                     </div>
                     <div>
-                        <h1 class="font-bold text-base text-white tracking-tight">Nexus AI</h1>
-                        <span class="text-[11px] text-cyan-400 font-medium">Enterprise Agent</span>
+                        <h1 class="font-bold text-base text-white tracking-tight">MediCare AI</h1>
+                        <span class="text-[11px] text-emerald-400 font-medium">Clinical Intelligence</span>
                     </div>
                 </div>
                 <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[10px] font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
-                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span> 3000
+                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 pulse-emerald"></span> Online
                 </span>
             </div>
 
-            <!-- New Chat Action -->
+            <!-- New Consultation Button -->
             <div class="p-4">
-                <button onclick="startNewChat()" class="w-full py-2.5 px-4 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-medium text-sm flex items-center justify-center gap-2 transition-all shadow-md shadow-indigo-600/20 active:scale-[0.98]">
-                    <i class="fa-solid fa-plus text-xs"></i> New Conversation
+                <button onclick="startNewChat()" class="w-full py-2.5 px-4 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-medium text-sm flex items-center justify-center gap-2 transition-all shadow-md shadow-emerald-600/20 active:scale-[0.98]">
+                    <i class="fa-solid fa-plus text-xs"></i> New Patient Intake
                 </button>
             </div>
 
-            <!-- Agent Specifications -->
+            <!-- Clinical Capabilities -->
             <div class="px-5 py-2">
-                <h3 class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-3">Engine & Stack</h3>
+                <h3 class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-3">Diagnostic Tools</h3>
                 <div class="space-y-2 text-xs">
-                    <div class="flex items-center justify-between p-2.5 rounded-lg bg-slate-800/50 border border-slate-800 text-slate-300">
-                        <span class="flex items-center gap-2"><i class="fa-solid fa-microchip text-indigo-400"></i> Model</span>
-                        <span class="font-mono text-cyan-300 font-semibold">Groq GPT-OSS 120B</span>
+                    <div class="flex items-center justify-between p-2.5 rounded-lg bg-slate-800/40 border border-slate-800 text-slate-300">
+                        <span class="flex items-center gap-2"><i class="fa-solid fa-triangle-exclamation text-amber-400"></i> Red-Flag Detector</span>
+                        <span class="text-emerald-400 font-semibold">Active</span>
                     </div>
-                    <div class="flex items-center justify-between p-2.5 rounded-lg bg-slate-800/50 border border-slate-800 text-slate-300">
-                        <span class="flex items-center gap-2"><i class="fa-solid fa-network-wired text-cyan-400"></i> Framework</span>
-                        <span class="font-mono text-indigo-300 font-semibold">FastAPI + LangGraph</span>
+                    <div class="flex items-center justify-between p-2.5 rounded-lg bg-slate-800/40 border border-slate-800 text-slate-300">
+                        <span class="flex items-center gap-2"><i class="fa-solid fa-weight-scale text-cyan-400"></i> BMI & Dosage Engine</span>
+                        <span class="text-emerald-400 font-semibold">Active</span>
                     </div>
-                    <div class="flex items-center justify-between p-2.5 rounded-lg bg-slate-800/50 border border-slate-800 text-slate-300">
-                        <span class="flex items-center gap-2"><i class="fa-solid fa-server text-emerald-400"></i> Host Port</span>
-                        <span class="font-mono text-emerald-400 font-semibold">localhost:3000</span>
+                    <div class="flex items-center justify-between p-2.5 rounded-lg bg-slate-800/40 border border-slate-800 text-slate-300">
+                        <span class="flex items-center gap-2"><i class="fa-solid fa-brain text-purple-400"></i> AI Core</span>
+                        <span class="font-mono text-cyan-300 font-semibold">Groq (0.2s)</span>
                     </div>
                 </div>
             </div>
 
-            <!-- Active Tools -->
-            <div class="px-5 py-4">
-                <h3 class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-2">Integrated Tools</h3>
-                <ul class="text-xs space-y-1.5 text-slate-400">
-                    <li class="flex items-center gap-2"><i class="fa-solid fa-calculator text-amber-400 text-[10px]"></i> High-Precision Math Engine</li>
-                    <li class="flex items-center gap-2"><i class="fa-solid fa-chart-line text-emerald-400 text-[10px]"></i> Real-time Stock Quotes</li>
-                    <li class="flex items-center gap-2"><i class="fa-solid fa-cloud-sun text-cyan-400 text-[10px]"></i> Global Weather Oracle</li>
-                </ul>
+            <!-- Emergency Dispatch Alert Box -->
+            <div class="p-4 mx-4 my-3 rounded-xl bg-rose-950/40 border border-rose-800/40 text-xs">
+                <div class="flex items-center gap-2 font-semibold text-rose-400 mb-1">
+                    <i class="fa-solid fa-phone-volume"></i> Emergency Hotlines
+                </div>
+                <p class="text-slate-300 text-[11px] mb-2 leading-relaxed">
+                    If suffering chest pain, severe bleeding, or shortness of breath, call immediately:
+                </p>
+                <div class="flex gap-2 text-[10px] font-mono font-bold">
+                    <span class="px-2 py-1 rounded bg-rose-900/60 text-rose-200">US: 911</span>
+                    <span class="px-2 py-1 rounded bg-rose-900/60 text-rose-200">UK/EU: 112</span>
+                    <span class="px-2 py-1 rounded bg-rose-900/60 text-rose-200">IN: 102/108</span>
+                </div>
             </div>
         </div>
 
-        <!-- Sidebar Footer -->
+        <!-- Footer -->
         <div class="p-4 border-t border-slate-800/80 text-[11px] text-slate-500 text-center">
-            Nexus AI Agentic Core • Port 3000
+            MediCare AI • Clinical Triage Platform
         </div>
     </aside>
 
-    <!-- Main Chat Window -->
+    <!-- Main Consultation Window -->
     <main class="flex-1 flex flex-col h-screen bg-slate-950 relative">
 
-        <!-- Top Navigation -->
+        <!-- Top Clinical Bar -->
         <header class="h-16 border-b border-slate-800 px-6 flex items-center justify-between bg-slate-900/40 backdrop-blur-md">
             <div class="flex items-center gap-3">
-                <div class="md:hidden w-8 h-8 rounded-lg bg-indigo-600 flex items-center justify-center">
-                    <i class="fa-solid fa-bolt text-white text-sm"></i>
+                <div class="md:hidden w-8 h-8 rounded-lg bg-emerald-600 flex items-center justify-center">
+                    <i class="fa-solid fa-stethoscope text-white text-sm"></i>
                 </div>
                 <div>
-                    <h2 class="font-semibold text-sm text-white">Production AI Workspace</h2>
+                    <h2 class="font-semibold text-sm text-white">Clinical Triage Consultation</h2>
                     <p class="text-[11px] text-slate-400 flex items-center gap-1.5">
-                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> Online & Linked to Groq
+                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> Groq High-Speed Medical Inference Active
                     </p>
                 </div>
             </div>
             <div class="flex items-center gap-3">
                 <a href="https://github.com/2303A52440/agentic-ai_project" target="_blank" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-medium flex items-center gap-1.5 border border-slate-700/60 transition-colors">
-                    <i class="fa-brands fa-github text-sm"></i> Repository
+                    <i class="fa-brands fa-github text-sm"></i> GitHub Project
                 </a>
             </div>
         </header>
@@ -117,40 +126,48 @@
         <div id="chatMessages" class="flex-1 overflow-y-auto custom-scroll p-6 space-y-6 max-w-4xl w-full mx-auto">
             
             <!-- Welcome Hero -->
-            <div id="welcomeHero" class="text-center py-10">
-                <div class="w-16 h-16 rounded-2xl bg-gradient-to-tr from-indigo-500 via-purple-500 to-cyan-400 flex items-center justify-center mx-auto mb-4 shadow-xl shadow-indigo-500/20">
-                    <i class="fa-solid fa-sparkles text-2xl text-white"></i>
+            <div id="welcomeHero" class="text-center py-6">
+                <div class="w-16 h-16 rounded-2xl bg-gradient-to-tr from-emerald-500 via-teal-500 to-cyan-500 flex items-center justify-center mx-auto mb-4 shadow-xl shadow-emerald-500/20">
+                    <i class="fa-solid fa-heart-pulse text-2xl text-white"></i>
                 </div>
-                <h2 class="text-2xl font-bold text-white mb-2">Welcome to Nexus AI</h2>
-                <p class="text-sm text-slate-400 max-w-md mx-auto mb-8">
-                    Your professional agentic workstation running natively on port 3000, powered by Groq's high-speed inference.
+                <h2 class="text-2xl font-bold text-white mb-2">Welcome to MediCare AI</h2>
+                <p class="text-xs text-slate-400 max-w-lg mx-auto mb-6 leading-relaxed">
+                    Powered by high-speed Groq LLM inference. Describe symptoms, assess injuries, calculate BMI/dosage, or inquire about recovery guidelines.
                 </p>
 
-                <!-- Starter Prompts Grid -->
+                <!-- Medical Disclaimer Pill -->
+                <div class="max-w-xl mx-auto p-3 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-300 text-xs text-left mb-6 flex gap-2.5 items-start">
+                    <i class="fa-solid fa-shield-halved text-amber-400 text-sm mt-0.5"></i>
+                    <div>
+                        <strong>Notice:</strong> This assistant provides symptom analysis and educational health information. It is not a substitute for professional medical diagnosis or urgent emergency care.
+                    </div>
+                </div>
+
+                <!-- Clinical Intake Cards -->
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 max-w-xl mx-auto text-left">
-                    <button onclick="sendQuickPrompt('Calculate the square root of 248 multiplied by 15.8 and explain the steps')" class="p-3.5 rounded-xl bg-slate-900 hover:bg-slate-800/90 border border-slate-800 hover:border-slate-700 transition-all text-xs group">
-                        <div class="font-medium text-slate-200 group-hover:text-indigo-400 mb-1 flex items-center gap-1.5">
-                            <i class="fa-solid fa-calculator text-amber-400"></i> Math Engine
-                        </div>
-                        <div class="text-slate-400 text-[11px]">Calculate sqrt(248) * 15.8 with steps</div>
-                    </button>
-                    <button onclick="sendQuickPrompt('What is the current stock market price and status of AAPL and NVDA?')" class="p-3.5 rounded-xl bg-slate-900 hover:bg-slate-800/90 border border-slate-800 hover:border-slate-700 transition-all text-xs group">
+                    <button onclick="sendQuickPrompt('I have had a severe throbbing headache on one side of my head with nausea and light sensitivity for 6 hours.')" class="p-3.5 rounded-xl bg-slate-900 hover:bg-slate-800/90 border border-slate-800 hover:border-slate-700 transition-all text-xs group">
                         <div class="font-medium text-slate-200 group-hover:text-emerald-400 mb-1 flex items-center gap-1.5">
-                            <i class="fa-solid fa-chart-line text-emerald-400"></i> Financial Analytics
+                            <i class="fa-solid fa-head-side-virus text-amber-400"></i> Migraine Assessment
                         </div>
-                        <div class="text-slate-400 text-[11px]">Check market quotes for AAPL & NVDA</div>
+                        <div class="text-slate-400 text-[11px]">Throbbing headache with light sensitivity</div>
                     </button>
-                    <button onclick="sendQuickPrompt('What is the weather in London right now and what should I wear?')" class="p-3.5 rounded-xl bg-slate-900 hover:bg-slate-800/90 border border-slate-800 hover:border-slate-700 transition-all text-xs group">
+                    <button onclick="sendQuickPrompt('What are the standard first-aid recovery steps for an acutely sprained ankle with swelling?')" class="p-3.5 rounded-xl bg-slate-900 hover:bg-slate-800/90 border border-slate-800 hover:border-slate-700 transition-all text-xs group">
                         <div class="font-medium text-slate-200 group-hover:text-cyan-400 mb-1 flex items-center gap-1.5">
-                            <i class="fa-solid fa-cloud-sun text-cyan-400"></i> Live Weather
+                            <i class="fa-solid fa-kit-medical text-cyan-400"></i> First-Aid Protocol
                         </div>
-                        <div class="text-slate-400 text-[11px]">Check real-time weather in London</div>
+                        <div class="text-slate-400 text-[11px]">R.I.C.E. protocol for sprained ankle</div>
                     </button>
-                    <button onclick="sendQuickPrompt('Write a clean Python script to execute an asynchronous multi-agent task')" class="p-3.5 rounded-xl bg-slate-900 hover:bg-slate-800/90 border border-slate-800 hover:border-slate-700 transition-all text-xs group">
-                        <div class="font-medium text-slate-200 group-hover:text-purple-400 mb-1 flex items-center gap-1.5">
-                            <i class="fa-solid fa-code text-purple-400"></i> Code Synthesis
+                    <button onclick="sendQuickPrompt('Calculate the BMI and recommended daily water intake for an adult weighing 78kg with a height of 180cm.')" class="p-3.5 rounded-xl bg-slate-900 hover:bg-slate-800/90 border border-slate-800 hover:border-slate-700 transition-all text-xs group">
+                        <div class="font-medium text-slate-200 group-hover:text-teal-400 mb-1 flex items-center gap-1.5">
+                            <i class="fa-solid fa-weight-scale text-teal-400"></i> BMI & Health Metrics
                         </div>
-                        <div class="text-slate-400 text-[11px]">Generate async Python multi-agent code</div>
+                        <div class="text-slate-400 text-[11px]">Calculate BMI for 78kg, 180cm</div>
+                    </button>
+                    <button onclick="sendQuickPrompt('My 5-year-old child has a fever of 101.5°F and a mild dry cough. How should I monitor and treat this at home?')" class="p-3.5 rounded-xl bg-slate-900 hover:bg-slate-800/90 border border-slate-800 hover:border-slate-700 transition-all text-xs group">
+                        <div class="font-medium text-slate-200 group-hover:text-purple-400 mb-1 flex items-center gap-1.5">
+                            <i class="fa-solid fa-temperature-arrow-up text-rose-400"></i> Pediatric Fever
+                        </div>
+                        <div class="text-slate-400 text-[11px]">Managing fever and cough in children</div>
                     </button>
                 </div>
             </div>
@@ -164,21 +181,21 @@
                     <textarea 
                         id="userInput" 
                         rows="1" 
-                        placeholder="Message Nexus AI... (Enter to send, Shift+Enter for new line)" 
-                        class="w-full bg-slate-900 border border-slate-800 rounded-2xl py-3.5 pl-4 pr-14 text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 resize-none transition-all shadow-inner"
+                        placeholder="Describe patient symptoms (e.g., 'Sharp abdominal pain after eating', 'Persistent dry cough')..." 
+                        class="w-full bg-slate-900 border border-slate-800 rounded-2xl py-3.5 pl-4 pr-14 text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 resize-none transition-all shadow-inner"
                         onkeydown="handleKeyDown(event)"
                     ></textarea>
                     <button 
                         type="submit" 
                         id="sendBtn" 
-                        class="absolute right-2.5 w-9 h-9 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white flex items-center justify-center transition-all disabled:opacity-40 disabled:cursor-not-allowed shadow-md shadow-indigo-600/30"
+                        class="absolute right-2.5 w-9 h-9 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white flex items-center justify-center transition-all disabled:opacity-40 disabled:cursor-not-allowed shadow-md shadow-emerald-600/30"
                     >
                         <i class="fa-solid fa-arrow-up text-sm"></i>
                     </button>
                 </form>
                 <div class="flex items-center justify-between text-[11px] text-slate-500 mt-2 px-2">
-                    <span>⚡ Running locally on <strong>http://localhost:3000</strong></span>
-                    <span>Powered by Groq <strong>GPT-OSS 120B (0.2s)</strong></span>
+                    <span>🩺 MediCare AI Localhost Port: <strong>http://localhost:3000</strong></span>
+                    <span>Powered by Groq <strong>High-Speed Medical Core</strong></span>
                 </div>
             </div>
         </div>
@@ -187,7 +204,7 @@
 
     <!-- Client-Side Scripting -->
     <script>
-        let threadId = "session_" + Math.random().toString(36).substring(2, 10);
+        let threadId = "patient_" + Math.random().toString(36).substring(2, 10);
 
         function handleKeyDown(e) {
             if (e.key === "Enter" && !e.shiftKey) {
@@ -202,15 +219,15 @@
         }
 
         function startNewChat() {
-            threadId = "session_" + Math.random().toString(36).substring(2, 10);
+            threadId = "patient_" + Math.random().toString(36).substring(2, 10);
             const container = document.getElementById("chatMessages");
             container.innerHTML = `
                 <div id="welcomeHero" class="text-center py-10">
-                    <div class="w-16 h-16 rounded-2xl bg-gradient-to-tr from-indigo-500 via-purple-500 to-cyan-400 flex items-center justify-center mx-auto mb-4 shadow-xl shadow-indigo-500/20">
-                        <i class="fa-solid fa-sparkles text-2xl text-white"></i>
+                    <div class="w-16 h-16 rounded-2xl bg-gradient-to-tr from-emerald-500 via-teal-500 to-cyan-500 flex items-center justify-center mx-auto mb-4 shadow-xl shadow-emerald-500/20">
+                        <i class="fa-solid fa-notes-medical text-2xl text-white"></i>
                     </div>
-                    <h2 class="text-2xl font-bold text-white mb-2">New Conversation Initialized</h2>
-                    <p class="text-sm text-slate-400 max-w-md mx-auto mb-4">Thread ID: <code>${threadId}</code></p>
+                    <h2 class="text-2xl font-bold text-white mb-2">New Consultation Initialized</h2>
+                    <p class="text-xs text-slate-400 max-w-md mx-auto mb-4">Session Reference: <code>${threadId}</code></p>
                 </div>
             `;
         }
@@ -227,14 +244,10 @@
             const hero = document.getElementById("welcomeHero");
             if (hero) hero.remove();
 
-            // Clear input & disable button
             input.value = "";
             sendBtn.disabled = true;
 
-            // Append User Message Bubble
             appendUserMessage(message);
-
-            // Append Loading Indicator Bubble
             const loadingId = appendLoadingBubble();
 
             try {
@@ -250,11 +263,11 @@
                 if (data.success) {
                     appendAssistantMessage(data.response);
                 } else {
-                    appendAssistantMessage("⚠️ **Error:** " + (data.error || "Failed to process request."));
+                    appendAssistantMessage("⚠️ **Clinical System Notice:** " + (data.error || "Unable to process intake."));
                 }
             } catch (err) {
                 removeLoadingBubble(loadingId);
-                appendAssistantMessage("⚠️ **Network Error:** Could not reach the server at `http://localhost:3000`.");
+                appendAssistantMessage("⚠️ **Network Error:** Could not connect to `http://localhost:3000`.");
             } finally {
                 sendBtn.disabled = false;
                 input.focus();
@@ -266,7 +279,7 @@
             const msgDiv = document.createElement("div");
             msgDiv.className = "flex justify-end";
             msgDiv.innerHTML = `
-                <div class="max-w-[80%] bg-indigo-600 text-white px-4 py-3 rounded-2xl rounded-tr-sm text-sm leading-relaxed shadow-md shadow-indigo-950/40">
+                <div class="max-w-[80%] bg-emerald-600 text-white px-4 py-3 rounded-2xl rounded-tr-sm text-sm leading-relaxed shadow-md shadow-emerald-950/40">
                     ${escapeHtml(text)}
                 </div>
             `;
@@ -281,8 +294,8 @@
             
             const htmlContent = marked.parse(markdownText);
             msgDiv.innerHTML = `
-                <div class="w-8 h-8 rounded-lg bg-gradient-to-tr from-cyan-500 to-indigo-600 flex-shrink-0 flex items-center justify-center text-white text-xs shadow-md">
-                    <i class="fa-solid fa-bolt"></i>
+                <div class="w-8 h-8 rounded-lg bg-gradient-to-tr from-emerald-500 to-cyan-500 flex-shrink-0 flex items-center justify-center text-white text-xs shadow-md">
+                    <i class="fa-solid fa-stethoscope"></i>
                 </div>
                 <div class="max-w-[85%] bg-slate-900 border border-slate-800 text-slate-100 px-5 py-4 rounded-2xl rounded-tl-sm text-sm leading-relaxed prose prose-invert prose-sm max-w-none shadow-md">
                     ${htmlContent}
@@ -300,12 +313,12 @@
             div.className = "flex gap-3 justify-start items-center";
             div.innerHTML = `
                 <div class="w-8 h-8 rounded-lg bg-slate-800 flex-shrink-0 flex items-center justify-center text-slate-400 text-xs">
-                    <i class="fa-solid fa-bolt animate-pulse"></i>
+                    <i class="fa-solid fa-stethoscope animate-pulse text-emerald-400"></i>
                 </div>
                 <div class="bg-slate-900 border border-slate-800 px-4 py-3 rounded-2xl rounded-tl-sm flex items-center gap-1.5">
-                    <div class="w-2 h-2 rounded-full bg-indigo-400 typing-dot"></div>
+                    <div class="w-2 h-2 rounded-full bg-emerald-400 typing-dot"></div>
+                    <div class="w-2 h-2 rounded-full bg-teal-400 typing-dot"></div>
                     <div class="w-2 h-2 rounded-full bg-cyan-400 typing-dot"></div>
-                    <div class="w-2 h-2 rounded-full bg-purple-400 typing-dot"></div>
                 </div>
             `;
             container.appendChild(div);

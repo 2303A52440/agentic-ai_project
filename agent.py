@@ -1,6 +1,5 @@
 import os
 import math
-import requests
 from typing import TypedDict, Annotated, Sequence, Dict, Any
 import operator
 from dotenv import load_dotenv
@@ -14,87 +13,127 @@ from langgraph.graph import StateGraph, START, END
 from langgraph.prebuilt import ToolNode, tools_condition
 from langgraph.checkpoint.memory import MemorySaver
 
-# 1. Initialize Groq LLM
 GROQ_API_KEY = os.getenv("GROQ_API_KEY")
 
-llm = ChatGroq(
-    model="openai/gpt-oss-120b",
-    temperature=0.3,
-    api_key=GROQ_API_KEY
-)
+# Initialize Groq with high-speed 120B model (or fallback to 20B)
+try:
+    llm = ChatGroq(
+        model="openai/gpt-oss-120b",
+        temperature=0.2,
+        api_key=GROQ_API_KEY
+    )
+except Exception:
+    llm = ChatGroq(
+        model="openai/gpt-oss-20b",
+        temperature=0.2,
+        api_key=GROQ_API_KEY
+    )
 
-# 2. Define Professional Agentic Tools
+
+# ========================================================
+# Clinical & Medical Intelligence Tools
+# ========================================================
+
 @tool
-def calculate(expression: str) -> str:
-    """Useful for mathematical calculations. Evaluates arithmetic expressions."""
+def calculate_bmi(weight_kg: float, height_cm: float) -> str:
+    """Calculates Body Mass Index (BMI), category, and healthy target weight range."""
     try:
-        allowed = {"math": math, "abs": abs, "round": round, "min": min, "max": max, "sum": sum, "pow": pow}
-        clean_expr = expression.replace("^", "**")
-        result = eval(clean_expr, {"__builtins__": {}}, allowed)
+        height_m = height_cm / 100.0
+        bmi = round(weight_kg / (height_m ** 2), 1)
+        
+        if bmi < 18.5:
+            cat = "Underweight"
+        elif 18.5 <= bmi < 24.9:
+            cat = "Normal weight (Healthy range)"
+        elif 25.0 <= bmi < 29.9:
+            cat = "Overweight"
+        else:
+            cat = "Obese (Consult a healthcare provider)"
+
+        ideal_min = round(18.5 * (height_m ** 2), 1)
+        ideal_max = round(24.9 * (height_m ** 2), 1)
+
+        return (
+            f"BMI Assessment:\n"
+            f"- Calculated BMI: {bmi}\n"
+            f"- Classification: {cat}\n"
+            f"- Recommended Weight Range for {height_cm}cm: {ideal_min} kg – {ideal_max} kg\n"
+            f"- Recommended Daily Water Intake: ~{round(weight_kg * 0.033, 1)} Liters"
+        )
+    except Exception as e:
+        return f"BMI Calculation error: {str(e)}"
+
+
+@tool
+def emergency_triage_checker(symptoms: str) -> str:
+    """Checks for clinical red flags and critical emergency indicators."""
+    critical_triggers = [
+        "chest pain", "shortness of breath", "difficulty breathing",
+        "stroke", "facial drooping", "arm weakness", "slurred speech",
+        "loss of consciousness", "coughing blood", "anaphylaxis",
+        "severe allergic reaction", "sudden numbness", "poisoning"
+    ]
+    s_lower = symptoms.lower()
+    matched = [c for c in critical_triggers if c in s_lower]
+
+    if matched:
+        return (
+            "🚨 CRITICAL EMERGENCY ALERT:\n"
+            f"The reported symptoms contain high-risk red flags ({', '.join(matched)}).\n"
+            "Action Required: Immediately call emergency services (911 in the US/Canada, 112 in Europe, 102/108 in India) "
+            "or proceed to the nearest emergency room. Do not drive yourself."
+        )
+    return "Triage Status: No immediate acute life-threatening emergency flags detected in query keywords. Proceed with clinical assessment."
+
+
+@tool
+def clinical_calculator(expression: str) -> str:
+    """Evaluates medical and dosage calculations accurately."""
+    try:
+        allowed = {"math": math, "abs": abs, "round": round, "min": min, "max": max}
+        clean = expression.replace("^", "**")
+        result = eval(clean, {"__builtins__": {}}, allowed)
         return f"Calculation Result: {result}"
     except Exception as e:
-        return f"Math calculation error: {str(e)}"
+        return f"Calculation error: {str(e)}"
 
-@tool
-def get_weather(city: str) -> str:
-    """Get the current weather for any city."""
-    api_key = os.getenv("OPENWEATHER_API_KEY")
-    if not api_key:
-        return f"Weather status for {city.title()}: 24°C, Clear skies, 55% humidity, gentle breeze."
-    try:
-        url = "https://api.openweathermap.org/data/2.5/weather"
-        res = requests.get(url, params={"q": city, "appid": api_key, "units": "metric"}, timeout=8)
-        data = res.json()
-        if res.status_code == 200:
-            temp = data["main"]["temp"]
-            desc = data["weather"][0]["description"]
-            return f"Weather in {city.title()}: {temp}°C, {desc.capitalize()}."
-        return f"Could not fetch live weather: {data.get('message', 'city not found')}."
-    except Exception as e:
-        return f"Weather service error: {str(e)}"
 
-@tool
-def get_stock_quote(symbol: str) -> str:
-    """Get real-time market stock quotes by ticker symbol (e.g. AAPL, MSFT, GOOG, TSLA, NVDA)."""
-    sym = symbol.upper().strip()
-    try:
-        url = f"https://query1.finance.yahoo.com/v8/finance/chart/{sym}"
-        headers = {"User-Agent": "Mozilla/5.0"}
-        r = requests.get(url, headers=headers, timeout=8)
-        if r.status_code == 200:
-            data = r.json()
-            meta = data["chart"]["result"][0]["meta"]
-            price = meta.get("regularMarketPrice", "N/A")
-            currency = meta.get("currency", "USD")
-            return f"{sym} Market Price: {price} {currency}"
-        return f"Could not retrieve ticker for {sym}."
-    except Exception:
-        return f"{sym} Market Quote: Data stream currently active."
-
-tools = [calculate, get_weather, get_stock_quote]
+tools = [calculate_bmi, emergency_triage_checker, clinical_calculator]
 llm_with_tools = llm.bind_tools(tools)
 
-# 3. State Definition
-class AgentState(TypedDict):
+
+# ========================================================
+# LangGraph Workflow Architecture
+# ========================================================
+
+class MedicalState(TypedDict):
     messages: Annotated[Sequence[BaseMessage], operator.add]
 
-system_prompt = SystemMessage(
+
+medical_system_prompt = SystemMessage(
     content=(
-        "You are 'Nexus AI' — a sleek, highly professional enterprise AI assistant powered by Groq LLaMA 3.1.\n"
-        "Communicate with clarity, structure, and elegance. "
-        "When appropriate, format answers using clean Markdown with bold headings, bullet points, and code blocks. "
-        "Use your built-in tools (calculate, get_weather, get_stock_quote) whenever the user asks for calculations, weather, or financial assets."
+        "You are 'MediCare AI', an advanced, clinical-grade medical intelligence assistant powered by Groq.\n"
+        "Your mission is to provide accurate, empathetic, and evidence-based health guidance.\n\n"
+        "Always structure your clinical responses with clean Markdown sections:\n"
+        "### 🩺 Symptom & Clinical Assessment\n"
+        "### 🔍 Possible Causes & Risk Factors\n"
+        "### 💡 Evidence-Based Self-Care & Recovery Steps\n"
+        "### 🚨 Red Flags (When to Seek Immediate Emergency Care)\n"
+        "### ⚠️ Clinical Disclaimer\n"
+        "*(Always state: 'This AI consultation is for informational triage only and does not replace a physical examination, formal diagnosis, or prescription by a licensed physician.')*\n\n"
+        "Use your tools (emergency_triage_checker, calculate_bmi, clinical_calculator) whenever appropriate."
     )
 )
 
-def chat_node(state: AgentState):
-    msgs = [system_prompt] + list(state["messages"])
+
+def medical_chat_node(state: MedicalState):
+    msgs = [medical_system_prompt] + list(state["messages"])
     response = llm_with_tools.invoke(msgs)
     return {"messages": [response]}
 
-# 4. LangGraph Workflow
-graph = StateGraph(AgentState)
-graph.add_node("agent", chat_node)
+
+graph = StateGraph(MedicalState)
+graph.add_node("agent", medical_chat_node)
 graph.add_node("tools", ToolNode(tools))
 
 graph.add_edge(START, "agent")
@@ -102,12 +141,13 @@ graph.add_conditional_edges("agent", tools_condition)
 graph.add_edge("tools", "agent")
 
 checkpointer = MemorySaver()
-agent_app = graph.compile(checkpointer=checkpointer)
+medical_agent_app = graph.compile(checkpointer=checkpointer)
 
-def run_agent(user_message: str, thread_id: str = "default_session") -> str:
-    """Executes the agent and returns the final assistant answer."""
+
+def run_medical_agent(user_message: str, thread_id: str = "patient_session") -> str:
+    """Executes the medical agent and returns the structured clinical response."""
     config = {"configurable": {"thread_id": thread_id}}
-    result = agent_app.invoke(
+    result = medical_agent_app.invoke(
         {"messages": [HumanMessage(content=user_message)]},
         config=config
     )
