@@ -1,3 +1,10 @@
+# 🤖 Agentic AI Chatbot
+
+> 🚀 **Application URL:** [http://localhost:3000](http://localhost:3000)  
+> 🌐 **Local Host:** `http://localhost:3000` (Port: `3000`)
+
+---
+
 # Agentic-Chatbot-APP-CICD-Deployment-with-Github-Actions-on-AWS
 
 ### Description: About the deployment
