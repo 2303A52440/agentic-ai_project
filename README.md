@@ -44,7 +44,9 @@
 	newgrp docker
 
 
-### Note: Do the port mapping to this port:- 8501
+### Note: Do the port mapping to port 3000:
+	- Localhost URL: http://localhost:3000
+	- Docker Port Mapping: -p 3000:3000
 	
 # 5. Configure EC2 as self-hosted runner:
 

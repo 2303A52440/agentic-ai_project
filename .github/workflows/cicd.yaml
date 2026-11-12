@@ -180,7 +180,7 @@ jobs:
           docker run -d \
             --restart unless-stopped \
             --name stapp \
-            -p 8501:8501 \
+            -p 3000:3000 \
             -e OPENAI_API_KEY \
             -e GOOGLE_API_KEY \
             -e TAVILY_API_KEY \
@@ -212,7 +212,7 @@ jobs:
         run: |
           for attempt in $(seq 1 12); do
             if docker exec stapp python -c \
-              "import urllib.request; urllib.request.urlopen('http://localhost:8501/_stcore/health', timeout=5)" \
+              "import urllib.request; urllib.request.urlopen('http://localhost:3000/_stcore/health', timeout=5)" \
               >/dev/null 2>&1; then
 
               echo "Streamlit application is healthy."
