@@ -1,9 +1,8 @@
 """
-Medical AI Chatbot — Port 3000 Entry Point
+Medical AI Chatbot — Entry Point (Port 8501)
 Run: python run.py
 """
 import sys
-import subprocess
 from streamlit.web import cli as stcli
 
 if __name__ == "__main__":
@@ -11,7 +10,7 @@ if __name__ == "__main__":
         "streamlit",
         "run",
         "app.py",
-        "--server.port=3000",
+        "--server.port=8501",
         "--server.address=0.0.0.0",
     ]
     sys.exit(stcli.main())

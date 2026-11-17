@@ -1,5 +1,5 @@
 [server]
-port = 3000
+port = 8501
 address = "0.0.0.0"
 headless = true
 enableCORS = false
@@ -7,4 +7,4 @@ enableXsrfProtection = false
 
 [browser]
 serverAddress = "localhost"
-serverPort = 3000
+serverPort = 8501

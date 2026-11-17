@@ -1,7 +1,7 @@
 # 🏥 Medical AI Chatbot
 
-> 🚀 **Live Local Host:** [http://localhost:3000](http://localhost:3000)  
-> 🌐 **Default Port:** `3000`  
+> 🚀 **Live Local Host:** [http://localhost:8501](http://localhost:8501)  
+> 🌐 **Default Port:** `8501`  
 > ⚡ **Hardware Acceleration:** Groq LPU Inference Core (`qwen/qwen3.8-27b`)  
 > 🩺 **Clinical Architecture:** Decision Support, SOAP Generation, Specialty Routing & Physiological Calculators  
 
@@ -27,7 +27,7 @@
 
 ---
 
-## 🚀 Quick Start (Running on `localhost:3000`)
+## 🚀 Quick Start (Running on `localhost:8501`)
 
 ### 1. Clone Repository
 ```bash
@@ -43,7 +43,7 @@ copy .env.example .env
 Add your free Groq API key from [console.groq.com/keys](https://console.groq.com/keys):
 ```env
 GROQ_API_KEY=gsk_your_groq_api_key_here
-PORT=3000
+PORT=8501
 ```
 
 ### 3. Install Dependencies
@@ -51,8 +51,8 @@ PORT=3000
 pip install -r requirements.txt
 ```
 
-### 4. Launch on `http://localhost:3000`
-You can launch the application on port **3000** with either of the following commands:
+### 4. Launch on `http://localhost:8501`
+You can launch the application on port **8501** with either of the following commands:
 
 **Method A (Recommended runner script):**
 ```bash
@@ -61,22 +61,22 @@ python run.py
 
 **Method B (Direct Streamlit CLI):**
 ```bash
-python -m streamlit run app.py --server.port 3000
+python -m streamlit run app.py
 ```
 
 Once launched, navigate to:
-👉 **`http://localhost:3000`**
+👉 **`http://localhost:8501`**
 
 ---
 
-## 📁 Clean Repository Structure
+## 📁 Repository Structure
 
 ```
 agentic-ai_project/
 ├── .streamlit/
-│   └── config.toml      # Server configuration locking port 3000
+│   └── config.toml      # Server configuration locking port 8501
 ├── app.py               # Main Clinical Intelligence application interface
-├── run.py               # Direct one-command entry point for localhost:3000
+├── run.py               # Direct one-command entry point for localhost:8501
 ├── config.py            # Clinical specialties, prompts, and inference parameters
 ├── llm_client.py        # Groq LPU API client and SOAP note generator
 ├── styles.py            # Clinical slate-teal custom styling and responsive UI
