@@ -3,10 +3,13 @@
 [![Open in Streamlit](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://share.streamlit.io/deploy?repository=2303A52440/agentic-ai_project&branch=main&mainModule=app.py)
 [![GitHub stars](https://img.shields.io/github/stars/2303A52440/agentic-ai_project?style=social)](https://github.com/2303A52440/agentic-ai_project)
 
-> 💻 **Local Address:** `http://localhost:8501` *(Opens in browser when running locally on your PC)*  
-> 🌐 **Default Port:** `8501`  
-> ⚡ **Hardware Acceleration:** Groq LPU Inference Core (`qwen/qwen3.8-27b`)  
-> 🩺 **Clinical Architecture:** Decision Support, SOAP Generation, Specialty Routing & Physiological Calculators  
+---
+
+### 🔗 Application Links:
+- 🌐 **Local Web App:** [http://localhost:8501](http://localhost:8501) *(Works when running locally on your PC)*
+- ☁️ **Live Cloud Deploy Link:** [https://share.streamlit.io/deploy?repository=2303A52440/agentic-ai_project&branch=main&mainModule=app.py](https://share.streamlit.io/deploy?repository=2303A52440/agentic-ai_project&branch=main&mainModule=app.py)
+
+> 💡 **Important:** If your browser blocks clicking `http://localhost:8501` directly from GitHub (due to Chrome HTTPS security rules), simply open a new browser tab and go to **`http://localhost:8501`** while running the app!
 
 ---
 
@@ -16,9 +19,7 @@
 
 ---
 
-## 🚀 How to Run and Open `http://localhost:8501`
-
-> ⚠️ **Note:** `localhost:8501` is a local address on your personal computer. It requires running the application locally on your machine following these 4 steps:
+## 🚀 How to Run Locally (`http://localhost:8501`)
 
 ### 1. Clone Repository
 ```bash
@@ -52,23 +53,22 @@ python run.py
 python -m streamlit run app.py
 ```
 
-Your browser will automatically open and connect to:  
-👉 **`http://localhost:8501`**
+Then open your browser at:  
+👉 **[http://localhost:8501](http://localhost:8501)**
 
 ---
 
-## 🌐 Free 1-Click Cloud Deployment (Public Link)
+## 🌐 Deploy Free 24/7 Public Link (Streamlit Cloud)
 
-Want a live public link anyone can access online? Deploy it for free on **Streamlit Community Cloud**:
+To get a permanent public link (`https://*.streamlit.app`) that anyone can open anywhere:
 
-1. Click the button below:  
-   [![Open in Streamlit](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://share.streamlit.io/deploy?repository=2303A52440/agentic-ai_project&branch=main&mainModule=app.py)
-2. Sign in with GitHub and select repository **`2303A52440/agentic-ai_project`**.
-3. Under **Advanced Settings > Secrets**, paste your Groq API key:
+1. Click here: [**Deploy to Streamlit Community Cloud**](https://share.streamlit.io/deploy?repository=2303A52440/agentic-ai_project&branch=main&mainModule=app.py)
+2. Sign in with GitHub (`2303A52440`).
+3. Under **Advanced Settings > Secrets**, paste:
    ```toml
-   GROQ_API_KEY = "gsk_your_groq_api_key_here"
+   GROQ_API_KEY = "your_groq_api_key_here"
    ```
-4. Click **Deploy!** You will get a permanent public URL (e.g. `https://agentic-ai-project.streamlit.app`).
+4. Click **Deploy!**
 
 ---
 
