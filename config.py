@@ -1,5 +1,5 @@
 """
-Configuration for MediAssist AI — Enterprise Clinical Intelligence Platform.
+Configuration for Medical AI Chatbot.
 """
 
 # ── Groq Model Settings ─────────────────────────────────────────────────────
@@ -8,8 +8,8 @@ MAX_TOKENS = 2500
 DEFAULT_TEMPERATURE = 0.25
 
 # ── Application Metadata ────────────────────────────────────────────────────
-APP_TITLE = "🏥 MediAssist AI"
-APP_SUBTITLE = "Clinical Intelligence & Medical Decision Support System"
+APP_TITLE = "🏥 Medical AI Chatbot"
+APP_SUBTITLE = "Professional Medical Information & Decision Support System"
 APP_VERSION = "2.5.0-PRO"
 
 # ── Consultation Modes ──────────────────────────────────────────────────────
@@ -34,7 +34,7 @@ SPECIALTIES = {
 }
 
 # ── System Prompts ───────────────────────────────────────────────────────────
-BASE_SYSTEM_PROMPT = """You are MediAssist AI, a clinical decision support and health information system built on high-precision medical datasets.
+BASE_SYSTEM_PROMPT = """You are Medical AI Chatbot, a clinical decision support and health information system built on high-precision medical datasets.
 
 ## Core Operational Directives:
 1. **Evidence-Based Medical Rigor**: Rely exclusively on validated clinical guidelines (e.g., UpToDate, WHO, CDC, NIH, ACC/AHA, NICE guidelines).

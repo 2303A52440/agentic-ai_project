@@ -1,4 +1,4 @@
-# 🏥 MediAssist AI — Enterprise Clinical Intelligence Platform
+# 🏥 Medical AI Chatbot
 
 > 🚀 **Live Local Host:** [http://localhost:3000](http://localhost:3000)  
 > 🌐 **Default Port:** `3000`  
@@ -9,7 +9,7 @@
 
 ## 📌 Overview
 
-**MediAssist AI** is an enterprise-grade medical information and clinical decision-support application built with **Streamlit** and **Groq LPU acceleration**. It provides real-time clinical consultations across 10 medical specialties, automated SOAP encounter note generation, physiological calculators (BMI, MAP), and emergency triage red-flag detection.
+**Medical AI Chatbot** is a professional medical information and clinical decision-support application built with **Streamlit** and **Groq LPU acceleration**. It provides real-time clinical consultations across 10 medical specialties, automated SOAP encounter note generation, physiological calculators (BMI, MAP), and emergency triage red-flag detection.
 
 ---
 

@@ -1,5 +1,5 @@
 """
-MediAssist AI — Port 3000 Entry Point
+Medical AI Chatbot — Port 3000 Entry Point
 Run: python run.py
 """
 import sys

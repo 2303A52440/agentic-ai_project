@@ -1,5 +1,5 @@
 """
-MediAssist AI — Enterprise Clinical Decision Support & Medical Intelligence
+Medical AI Chatbot — Clinical Decision Support & Medical Intelligence
 Built with Streamlit + Groq LPU Inference (Qwen 3.8 27B)
 """
 
@@ -23,7 +23,7 @@ from styles import get_custom_css
 
 # ── Page Configuration ───────────────────────────────────────────────────────
 st.set_page_config(
-    page_title="MediAssist AI | Clinical Decision Support",
+    page_title="Medical AI Chatbot",
     page_icon="🏥",
     layout="wide",
     initial_sidebar_state="expanded",
@@ -64,7 +64,7 @@ init_session_state()
 with st.sidebar:
     st.markdown(
         f"""
-        <div class="sidebar-brand">🏥 MediAssist AI</div>
+        <div class="sidebar-brand">🏥 Medical AI Chatbot</div>
         <div class="sidebar-version">RELEASE {APP_VERSION}</div>
         """,
         unsafe_allow_html=True,
@@ -131,7 +131,7 @@ with st.sidebar:
 
     with col_export:
         if st.session_state.messages:
-            transcript = f"# MediAssist AI Consultation Transcript\nSession Date: {st.session_state.session_start}\nSpecialty: {selected_spec_label}\nMode: {selected_mode_label}\n\n"
+            transcript = f"# Medical AI Chatbot Consultation Transcript\nSession Date: {st.session_state.session_start}\nSpecialty: {selected_spec_label}\nMode: {selected_mode_label}\n\n"
             for msg in st.session_state.messages:
                 transcript += f"### {msg['role'].upper()}:\n{msg['content']}\n\n"
             transcript += f"\n---\n{MEDICAL_DISCLAIMER}"
