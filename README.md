@@ -69,7 +69,7 @@ Once launched, navigate to:
 
 ---
 
-## 📁 Repository Structure
+## 📁 Clean Repository Structure
 
 ```
 agentic-ai_project/
@@ -81,22 +81,10 @@ agentic-ai_project/
 ├── llm_client.py        # Groq LPU API client and SOAP note generator
 ├── styles.py            # Clinical slate-teal custom styling and responsive UI
 ├── requirements.txt     # Python dependency specifications
-├── Dockerfile           # Production container configured for port 3000
 ├── .env.example         # Template for environment variables
+├── .gitignore           # Ignores sensitive keys (.env) and byte-caches
 └── README.md            # Comprehensive project documentation
 ```
-
----
-
-## 🐳 Docker Deployment (Port 3000)
-
-Build and run using the optimized Docker container:
-
-```bash
-docker build -t mediassist-ai .
-docker run -d -p 3000:3000 --env-file .env mediassist-ai
-```
-The container exposes and maps **`http://localhost:3000`** automatically.
 
 ---
 
