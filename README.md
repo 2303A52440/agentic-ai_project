@@ -1,55 +1,104 @@
-# 🩺 MediCare AI — Clinical Medical Agentic Chatbot
+# 🏥 MediAssist AI — Enterprise Clinical Intelligence Platform
 
-> 🚀 **Application URL:** [http://localhost:3000](http://localhost:3000)  
-> 🌐 **Local Host:** `http://localhost:3000` (Port: `3000`)  
-> ⚡ **Inference Engine:** Groq High-Speed Medical AI Core  
+> 🚀 **Live Local Host:** [http://localhost:3000](http://localhost:3000)  
+> 🌐 **Default Port:** `3000`  
+> ⚡ **Hardware Acceleration:** Groq LPU Inference Core (`qwen/qwen3.8-27b`)  
+> 🩺 **Clinical Architecture:** Decision Support, SOAP Generation, Specialty Routing & Physiological Calculators  
 
 ---
 
 ## 📌 Overview
-**MediCare AI** is a professional, clinical-grade medical intelligence assistant built with **FastAPI**, **LangGraph**, and **Groq**. It provides autonomous symptom triage, red-flag emergency detection, BMI & hydration calculations, and evidence-based self-care guidance.
+
+**MediAssist AI** is an enterprise-grade medical information and clinical decision-support application built with **Streamlit** and **Groq LPU acceleration**. It provides real-time clinical consultations across 10 medical specialties, automated SOAP encounter note generation, physiological calculators (BMI, MAP), and emergency triage red-flag detection.
 
 ---
 
-## ✨ Features
-* 🩺 **Clinical Symptom Triage:** Structured assessments with possible etiologies and recovery guidelines.
-* 🚨 **Red-Flag Emergency Detector:** Alerts users when symptoms indicate acute medical emergencies (chest pain, stroke signs, breathing distress).
-* ⚖️ **BMI & Dosage Calculator:** Accurately computes Body Mass Index, target weight ranges, and daily hydration goals.
-* ⚡ **Sub-Second Groq Inference:** Powered by Groq for instantaneous answers.
-* 💻 **Modern Professional Web UI:** Responsive dark-mode interface with clinical intake prompt cards.
+## ✨ Clinical Capabilities & Features
+
+| Capability | Technical Details |
+|---|---|
+| ⚡ **Sub-Second Groq Inference** | Powered by Groq LPUs running high-speed clinical models at ~350+ tokens/sec. |
+| 🔬 **10 Specialty Departments** | General Medicine, Cardiology, Neurology, Orthopedics, Pediatrics, Dermatology, Pulmonology, Pharmacology, Nutrition, Psychiatry. |
+| 🎭 **3 Clinical Personas** | Switch between **Patient-Friendly**, **Clinical/Physician (SOAP & Differential)**, and **Pharmacology Deep-Dive**. |
+| 📋 **Automated SOAP Notes** | 1-Click synthesis of full patient encounters into structured SOAP notes (Subjective, Objective, Assessment, Plan). |
+| ⚖️ **Clinical Calculators** | Real-time Body Mass Index (BMI) WHO stratification and Mean Arterial Pressure (MAP) organ perfusion estimator. |
+| 🚨 **Emergency Triage Matrix** | Rapid-reference protocol for Acute Coronary Syndrome, BE-FAST Acute Stroke, Sepsis, and Respiratory Distress. |
+| 📥 **Transcript Export** | Download encrypted-session consultation transcripts as Markdown (`.md`). |
 
 ---
 
-## 🚀 Quick Start (Localhost:3000)
+## 🚀 Quick Start (Running on `localhost:3000`)
 
-### 1. Clone & Setup
+### 1. Clone Repository
 ```bash
 git clone https://github.com/2303A52440/agentic-ai_project.git
 cd agentic-ai_project
 ```
 
 ### 2. Configure Environment (`.env`)
+Copy `.env.example` to `.env`:
+```bash
+copy .env.example .env
+```
+Add your free Groq API key from [console.groq.com/keys](https://console.groq.com/keys):
 ```env
-GROQ_API_KEY=your_groq_api_key_here
+GROQ_API_KEY=gsk_your_groq_api_key_here
 PORT=3000
 ```
 
-### 3. Install & Run
+### 3. Install Dependencies
 ```bash
 pip install -r requirements.txt
-python app.py
 ```
-Open **`http://localhost:3000`** in your browser.
 
----
+### 4. Launch on `http://localhost:3000`
+You can launch the application on port **3000** with either of the following commands:
 
-## 🐳 Docker Deployment
+**Method A (Recommended runner script):**
 ```bash
-docker build -t medicare-ai .
-docker run -d -p 3000:3000 --env-file .env medicare-ai
+python run.py
+```
+
+**Method B (Direct Streamlit CLI):**
+```bash
+python -m streamlit run app.py --server.port 3000
+```
+
+Once launched, navigate to:
+👉 **`http://localhost:3000`**
+
+---
+
+## 📁 Repository Structure
+
+```
+agentic-ai_project/
+├── .streamlit/
+│   └── config.toml      # Server configuration locking port 3000
+├── app.py               # Main Clinical Intelligence application interface
+├── run.py               # Direct one-command entry point for localhost:3000
+├── config.py            # Clinical specialties, prompts, and inference parameters
+├── llm_client.py        # Groq LPU API client and SOAP note generator
+├── styles.py            # Clinical slate-teal custom styling and responsive UI
+├── requirements.txt     # Python dependency specifications
+├── Dockerfile           # Production container configured for port 3000
+├── .env.example         # Template for environment variables
+└── README.md            # Comprehensive project documentation
 ```
 
 ---
 
-## ⚠️ Medical Disclaimer
-*MediCare AI is designed for informational and educational triage purposes only. It does not provide formal medical diagnosis, physical examinations, or prescriptions. In a medical emergency, call 911 (US/CA), 112 (EU), or your local emergency dispatch immediately.*
+## 🐳 Docker Deployment (Port 3000)
+
+Build and run using the optimized Docker container:
+
+```bash
+docker build -t mediassist-ai .
+docker run -d -p 3000:3000 --env-file .env mediassist-ai
+```
+The container exposes and maps **`http://localhost:3000`** automatically.
+
+---
+
+## 📄 License
+This project is licensed under the MIT License.

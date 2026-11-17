@@ -19,4 +19,6 @@ COPY . .
 
 EXPOSE 3000
 
-CMD ["uvicorn", "app:app", "--host", "0.0.0.0", "--port", "3000"]
+HEALTHCHECK CMD curl --fail http://localhost:3000/_stcore/health || exit 1
+
+ENTRYPOINT ["streamlit", "run", "app.py", "--server.port=3000", "--server.address=0.0.0.0"]
